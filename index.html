@@ -1111,7 +1111,7 @@ function localSpriteForPokemon(p){
  return Number.isInteger(id)&&id>0&&id<=1025?'./assets/pokemon/'+id+'.png':'';
 }
 async function loadOfflineDex(){
- const storageKey='hunt-pokemon-dex-v1';
+ const storageKey='hunt-pokemon-dex-v1.5.16';
  const refreshSprites=()=>{
   for(let i=0;i<2;i++){
    const img=document.querySelector('#custom-'+i+' .custom-sprite');

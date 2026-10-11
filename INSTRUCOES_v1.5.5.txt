@@ -1,0 +1,8 @@
+HUNT PLANNER v1.5.5
+
+1. Execute Preparar_Dex_Offline.ps1 UMA VEZ (botao direito > Executar com PowerShell, ou: powershell -ExecutionPolicy Bypass -File .\Preparar_Dex_Offline.ps1).
+2. Isso cria assets/pokemon-dex.json, o mapa que associa nomes aos arquivos numerados.
+3. Envie TODOS os arquivos e pastas, inclusive assets/pokemon-dex.json, com GitHub Desktop.
+4. Abra o site online uma vez para instalar o cache e depois teste offline.
+
+Pode excluir os arquivos LEIA-ME antigos, mas NAO exclua index.html, sw.js, manifest.webmanifest ou a pasta assets.

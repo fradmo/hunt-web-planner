@@ -2,7 +2,7 @@
   "id": "./",
   "name": "HUNT PLANNER",
   "short_name": "Hunt Planner",
-  "description": "Planejador de Tasks, Captura e Bosses Pokémon",
+  "description": "Planejador de Tasks, Captura, Bosses, Catch Dex e Movesets Pokémon",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

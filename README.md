@@ -11,3 +11,5 @@ Esta primeira migração usa média aritmética do valor de captura **apenas das
 
 ## Publicação
 Envie os cinco arquivos do ZIP para a raiz do repositório público do GitHub Pages, substituindo as versões anteriores. Não publique a planilha original ou credenciais.
+
+Version 1.5.15: restored National Dex recovery and cached full lookup.

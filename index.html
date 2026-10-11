@@ -860,7 +860,7 @@ function applyDualScene(el, types){
  else{
  // Transparent PNG halves overlap 12% in the center; a full scene beneath avoids gaps.
  el.style.setProperty('background-image',`linear-gradient(180deg,rgba(8,13,25,.04),rgba(8,13,25,.42)),url("assets/type-${a}-left.webp"),url("assets/type-${b}-right.webp"),url("assets/type-${a}-full.webp")`,'important');
- el.style.setProperty('background-position','center,left center,right center,center','important');
+ el.style.setProperty('background-position','center,calc(0% - 7px) center,calc(100% - 7px) center,center','important');
  el.style.setProperty('background-size','100% 100%,56.5% 100%,56.5% 100%,cover','important');
  }
  el.style.setProperty('background-repeat','no-repeat','important');
@@ -1051,16 +1051,46 @@ function moveDisplay(m){return `${titleCase(m.name)} (${Number(m.power).toLocale
 function titleCase(s){return String(s||'').replace(/\b[a-zÀ-ÿ]/gi,x=>x.toUpperCase())}
 function classLabel(m){return ({physical:'Físico',special:'Especial',status:'Status',generic:'Não classificado'})[m?.damageClass]||'Não classificado'}
 const BOSS_SPRITE_IDS={"Articuno":144,"Zapdos":145,"Moltres":146,"Mewtwo":150,"Mew":151,"Raikou":243,"Entei":244,"Suicune":245,"Lugia":249,"Ho-oh":250,"Celebi":251,"Kyogre":382,"Groudon":383,"Rayquaza":384,"Regirock":377,"Regice":378,"Registeel":379,"Latias":380,"Latios":381,"Jirachi":385,"Deoxys":386,"Uxie":480,"Mesprit":481,"Azelf":482,"Dialga":483,"Palkia":484,"Giratina":487,"Heatran":485,"Regigigas":486,"Cresselia":488,"Phione":489,"Manaphy":490,"Darkrai":491,"Shaymin":492,"Arceus":493,"Victini":494,"Cobalion":638,"Terrakion":639,"Virizion":640,"Tornadus":641,"Thundurus":642,"Landorus":645,"Reshiram":643,"Zekrom":644,"Kyurem":646,"Keldeo":647,"Meloetta":648,"Genesect":649,"Mega Absol":359,"Mega Aerodactyl":142,"Mega Alakazam":65,"Mega Ampharos":181,"Mega Blastoise":9,"Mega Blaziken":257,"Mega Charizard X":6,"Mega Charizard Y":6,"Mega Gengar":94,"Mega Glalie":362,"Mega Gyarados":130,"Mega Houndoom":229,"Mega Kangaskhan":115,"Mega Lucario":448,"Mega Manectric":310,"Mega Metagross":376,"Mega Pinsir":127,"Mega Raichu":26,"Mega Sceptile":254,"Mega Scizor":212,"Mega Slowbro":80,"Mega Steelix":208,"Mega Swampert":260,"Mega Tyranitar":248,"Mega Venusaur":3,"Mega Wobbuffet":202};
-function updateBossSprite(){
+// Mega forms have separate PokéAPI IDs; using the base species ID shows the unevolved form.
+// Resolve the exact form by name and use the same PokéAPI sprite repository as the other bosses.
+const MEGA_FORM_NAMES={
+ 'Mega Absol':'absol-mega','Mega Aerodactyl':'aerodactyl-mega','Mega Alakazam':'alakazam-mega',
+ 'Mega Ampharos':'ampharos-mega','Mega Blastoise':'blastoise-mega','Mega Blaziken':'blaziken-mega',
+ 'Mega Charizard X':'charizard-mega-x','Mega Charizard Y':'charizard-mega-y',
+ 'Mega Gengar':'gengar-mega','Mega Glalie':'glalie-mega','Mega Gyarados':'gyarados-mega',
+ 'Mega Houndoom':'houndoom-mega','Mega Kangaskhan':'kangaskhan-mega','Mega Lucario':'lucario-mega',
+ 'Mega Manectric':'manectric-mega','Mega Metagross':'metagross-mega','Mega Pinsir':'pinsir-mega',
+ 'Mega Sceptile':'sceptile-mega','Mega Scizor':'scizor-mega','Mega Slowbro':'slowbro-mega',
+ 'Mega Steelix':'steelix-mega','Mega Swampert':'swampert-mega','Mega Tyranitar':'tyranitar-mega',
+ 'Mega Venusaur':'venusaur-mega','Mega Wobbuffet':null,'Mega Raichu':null
+};
+const megaSpriteCache=new Map();let bossSpriteRequest=0;
+async function updateBossSprite(){
  const img=byId('bossSprite'),fallback=byId('bossSpriteFallback'),name=bossChosen()?.name||'';
- const id=BOSS_SPRITE_IDS[name];img.style.display='none';fallback.style.display='';img.alt='Pixel art: '+name;
+ const id=BOSS_SPRITE_IDS[name],request=++bossSpriteRequest;
+ img.style.display='none';fallback.style.display='';img.alt='Pixel art: '+name;
  if(!id){fallback.textContent='◈';return;}
  const base='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/';
- let triedFallback=false;
- img.onload=()=>{img.style.display='block';fallback.style.display='none'};
- img.onerror=()=>{if(!triedFallback){triedFallback=true;img.src=base+id+'.png';}else{img.style.display='none';fallback.textContent='◈';fallback.style.display='';}};
- img.src=base+'versions/generation-v/black-white/'+id+'.png';
+ let sources=[];
+ if(name.startsWith('Mega ')){
+  const form=MEGA_FORM_NAMES[name];
+  if(form){
+   try{
+    let megaId=megaSpriteCache.get(form);
+    if(!megaId){const response=await fetch('https://pokeapi.co/api/v2/pokemon/'+encodeURIComponent(form));if(!response.ok)throw Error('Form unavailable');const data=await response.json();megaId=data.id;megaSpriteCache.set(form,megaId)}
+    if(request!==bossSpriteRequest)return;
+    // ORAS sprites are the closest in the original PokéAPI collection to the Gen V pixel-art style.
+    sources=[base+'versions/generation-vi/omegaruby-alphasapphire/'+megaId+'.png',base+'versions/generation-vi/x-y/'+megaId+'.png',base+megaId+'.png'];
+   }catch(e){console.warn('Mega sprite unavailable:',form,e)}
+  }else{console.warn('Mega form not found in PokéAPI:',name)}
+ }else sources=[base+'versions/generation-v/black-white/'+id+'.png',base+id+'.png'];
+ if(!sources.length){fallback.textContent='◈';return;}
+ let index=0;
+ img.onload=()=>{if(request!==bossSpriteRequest)return;img.style.display='block';fallback.style.display='none'};
+ img.onerror=()=>{if(request!==bossSpriteRequest)return;if(++index<sources.length)img.src=sources[index];else{img.style.display='none';fallback.textContent='◈';fallback.style.display=''}};
+ img.src=sources[0];
 }
+
 function itemMultiplier(move,items,gem='Nenhuma'){
  let factor=(items.includes('Choice Band')?1.25:1)*(items.includes('Assault Vest')?0.85:1)*(items.includes('Choice Scarf')?(1/0.75):1);
  const moveType=normalizeMoveType(move.type);

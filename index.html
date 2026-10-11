@@ -1106,47 +1106,21 @@ function localSpriteForPokemon(p){
   return form?'./assets/megas/'+form+'.png':(BOSS_SPRITE_IDS[name]?'./assets/pokemon/'+BOSS_SPRITE_IDS[name]+'.png':'');
  }
  const key=normalizeDexName(name);
- const id=Number(p?.id||p?.dex||p?.number||LOCAL_DEX_IDS[key]||BOSS_SPRITE_IDS[name]||POKEMON_LOCAL_IDS[name]);
+ const nidoranIds={nidoranfemale:29,nidoranmale:32,nidoranf:29,nidoranm:32};
+ const id=Number(nidoranIds[key]||p?.id||p?.dex||p?.number||LOCAL_DEX_IDS[key]||BOSS_SPRITE_IDS[name]||POKEMON_LOCAL_IDS[name]);
  return Number.isInteger(id)&&id>0&&id<=1025?'./assets/pokemon/'+id+'.png':'';
 }
 async function loadOfflineDex(){
- const storageKey='hunt-pokemon-dex-v1';
- const refreshSprites=()=>{
+ try{
+  const response=await fetch('./assets/pokemon-dex.json');
+  if(!response.ok)throw Error('Pokédex local não encontrado');
+  LOCAL_DEX_IDS=await response.json();
   for(let i=0;i<2;i++){
    const img=document.querySelector('#custom-'+i+' .custom-sprite');
    if(img)img.dataset.species='';
    if(typeof refreshCustom==='function')refreshCustom(i);
   }
-  if(typeof updateBossSprite==='function')updateBossSprite();
- };
- const useMap=data=>{
-  if(!data||typeof data!=='object'||Object.keys(data).length<100)return false;
-  LOCAL_DEX_IDS=data;refreshSprites();return true;
- };
- try{
-  const cached=localStorage.getItem(storageKey);
-  if(cached&&useMap(JSON.parse(cached)))return;
- }catch(e){}
- try{
-  const response=await fetch('./assets/pokemon-dex.json');
-  if(response.ok){const data=await response.json();if(useMap(data)){
-   try{localStorage.setItem(storageKey,JSON.stringify(data))}catch(e){}return;
-  }}
- }catch(e){}
- // Recovery for packages published before the local index existed.
- // On first online visit, retrieve the public National Pokédex and persist it
- // so subsequent visits can resolve sprites without a network connection.
- try{
-  const response=await fetch('https://raw.githubusercontent.com/PokeAPI/pokeapi/master/data/v2/csv/pokemon_species.csv',{cache:'force-cache'});
-  if(!response.ok)throw Error('National Dex unavailable');
-  const csv=await response.text(),map={};
-  for(const line of csv.split(/\r?\n/)){
-   const cols=line.split(','),id=Number(cols[0]),name=cols[1];
-   if(Number.isInteger(id)&&id>=1&&id<=1025&&name){map[normalizeDexName(name)]=id;}
-  }
-  Object.assign(map,{nidoranf:29,nidoranm:32,mrmime:122,mimejr:439,farfetchd:83,sirfetchd:865,flabebe:669,typenull:772,jangmoo:782,hakamoo:783,kommoo:784});
-  if(useMap(map)){try{localStorage.setItem(storageKey,JSON.stringify(map))}catch(e){}}
- }catch(err){console.warn('National Dex offline index unavailable; using built-in sprite IDs.',err)}
+ }catch(err){console.warn('Sprites: execute Preparar_Dex_Offline.ps1 para criar assets/pokemon-dex.json',err)}
 }
 window.addEventListener('DOMContentLoaded',loadOfflineDex);
 function updateBossSprite(){

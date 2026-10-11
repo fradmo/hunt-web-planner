@@ -860,8 +860,8 @@ function applyDualScene(el, types){
  else{
  // Transparent PNG halves overlap 12% in the center; a full scene beneath avoids gaps.
  el.style.setProperty('background-image',`linear-gradient(180deg,rgba(8,13,25,.04),rgba(8,13,25,.42)),url("assets/type-${a}-left.webp"),url("assets/type-${b}-right.webp"),url("assets/type-${a}-full.webp")`,'important');
- el.style.setProperty('background-position','center,calc(0% - 7px) center,calc(100% - 7px) center,center','important');
- el.style.setProperty('background-size','100% 100%,56.5% 100%,56.5% 100%,cover','important');
+ el.style.setProperty('background-position','center,left center,right center,center','important');
+ el.style.setProperty('background-size','100% 100%,auto 100%,auto 100%,cover','important');
  }
  el.style.setProperty('background-repeat','no-repeat','important');
 }
@@ -1066,15 +1066,32 @@ const MEGA_FORM_NAMES={
 };
 const POKEMON_LOCAL_IDS={"Bulbasaur":1,"Ivysaur":2,"Venusaur":3,"Charmander":4,"Charmeleon":5,"Charizard":6,"Squirtle":7,"Wartortle":8,"Blastoise":9,"Pikachu":25,"Raichu":26,"Abra":63,"Kadabra":64,"Alakazam":65,"Gengar":94,"Gyarados":130,"Eevee":133,"Snorlax":143,"Dragonite":149,"Mewtwo":150,"Mew":151,"Tyranitar":248,"Sceptile":254,"Blaziken":257,"Swampert":260,"Gardevoir":282,"Absol":359,"Metagross":376,"Garchomp":445,"Lucario":448,"Greninja":658};
 let bossSpriteRequest=0;
+// Offline National Pokédex lookup, generated once by Preparar_Dex_Offline.ps1.
+let LOCAL_DEX_IDS={};
+function normalizeDexName(name){return String(name||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'');}
 function localSpriteForPokemon(p){
  const name=String(p?.name||'');
  if(name.startsWith('Mega ')){
   const form=MEGA_FORM_NAMES[name];
   return form?'./assets/megas/'+form+'.png':(BOSS_SPRITE_IDS[name]?'./assets/pokemon/'+BOSS_SPRITE_IDS[name]+'.png':'');
  }
- const id=Number(p?.id||p?.dex||p?.number||BOSS_SPRITE_IDS[name]||POKEMON_LOCAL_IDS[name]);
+ const key=normalizeDexName(name);
+ const id=Number(p?.id||p?.dex||p?.number||LOCAL_DEX_IDS[key]||BOSS_SPRITE_IDS[name]||POKEMON_LOCAL_IDS[name]);
  return Number.isInteger(id)&&id>0&&id<=1025?'./assets/pokemon/'+id+'.png':'';
 }
+async function loadOfflineDex(){
+ try{
+  const response=await fetch('./assets/pokemon-dex.json');
+  if(!response.ok)throw Error('Pokédex local não encontrado');
+  LOCAL_DEX_IDS=await response.json();
+  for(let i=0;i<2;i++){
+   const img=document.querySelector('#custom-'+i+' .custom-sprite');
+   if(img)img.dataset.species='';
+   if(typeof refreshCustom==='function')refreshCustom(i);
+  }
+ }catch(err){console.warn('Sprites: execute Preparar_Dex_Offline.ps1 para criar assets/pokemon-dex.json',err)}
+}
+window.addEventListener('DOMContentLoaded',loadOfflineDex);
 function updateBossSprite(){
  const img=byId('bossSprite'),fallback=byId('bossSpriteFallback'),name=bossChosen()?.name||'';
  const request=++bossSpriteRequest,src=localSpriteForPokemon({name});
@@ -1255,7 +1272,7 @@ function refreshCustom(i){
   const col={'Normal':'#64748b','Lutador':'#a84034','Voador':'#4777a9','Veneno':'#7b379e','Terra':'#a36d35','Pedra':'#9a812d','Inseto':'#4d8d21','Fantasma':'#53369c','Metal':'#337f91','Fogo':'#b94b13','Água':'#1465b9','Planta':'#23783b','Elétrico':'#a98800','Psíquico':'#bd426e','Gelo':'#1a9b9d','Dragão':'#344eb0','Sombrio':'#4b4267','Fada':'#b83f9d'};
   bar.replaceChildren();types.forEach((t,k)=>{const pill=node('span','type-pill');pill.style.setProperty('--pill-color',col[t]||'#465');const img=node('img');img.src='assets/'+iconIdx[t]+'.png';img.alt='';pill.append(img,document.createTextNode(t));bar.append(pill)})
  }
- const sprite=c.querySelector('.custom-sprite');const banner=c.querySelector('.species-wrap');if(banner){const t=String((p.types||[])[0]||'normal').toLowerCase();const colors={fogo:'#9a3f22',agua:'#165d99',planta:'#397a35',eletrico:'#9b7922',dragao:'#44409b',fantasma:'#5c4184',sombrio:'#383348',fada:'#9b4b93',gelo:'#327f91',terra:'#795332',pedra:'#665b43',lutador:'#833d35',voador:'#486b9c',veneno:'#72428e',metal:'#54667c',inseto:'#64772e',psiquico:'#963d64',normal:'#4a5362'};banner.style.setProperty('--species-accent',colors[t]||'#4a5362');}if(sprite){const spriteName=p.name.toLowerCase().replace(/^mega /,'').replace(/[^a-z0-9 -]/g,'').replace(/ /g,'-');if(sprite.dataset.species!==spriteName){sprite.dataset.species=spriteName;sprite.src=localSpriteForPokemon(p)||'';sprite.onerror=()=>{sprite.style.visibility='hidden'};sprite.onload=()=>{sprite.style.visibility='visible'};}}
+ const sprite=c.querySelector('.custom-sprite');const banner=c.querySelector('.species-wrap');if(banner){const t=String((p.types||[])[0]||'normal').toLowerCase();const colors={fogo:'#9a3f22',agua:'#165d99',planta:'#397a35',eletrico:'#9b7922',dragao:'#44409b',fantasma:'#5c4184',sombrio:'#383348',fada:'#9b4b93',gelo:'#327f91',terra:'#795332',pedra:'#665b43',lutador:'#833d35',voador:'#486b9c',veneno:'#72428e',metal:'#54667c',inseto:'#64772e',psiquico:'#963d64',normal:'#4a5362'};banner.style.setProperty('--species-accent',colors[t]||'#4a5362');}if(sprite){const spriteName=p.name.toLowerCase().replace(/^mega /,'').replace(/[^a-z0-9 -]/g,'').replace(/ /g,'-');if(sprite.dataset.species!==spriteName){sprite.dataset.species=spriteName;const src=localSpriteForPokemon(p);sprite.onerror=()=>{sprite.style.visibility='hidden'};sprite.onload=()=>{sprite.style.visibility='visible'};if(src){sprite.src=src;}else{sprite.removeAttribute('src');sprite.style.visibility='hidden';}}}
  const level=Math.max(1,Math.min(120,Number(c.querySelector('.pk-level').value)||100));
  const rarity=c.querySelector('.pk-rarity').value,iv=[],ev=[];
  for(let j=0;j<6;j++){iv.push(Math.max(0,Math.min(31,Number(c.querySelector('.pk-iv-'+j).value)||0)));ev.push(Math.max(0,Math.min(252,Number(c.querySelector('.pk-ev-'+j).value)||0)))}

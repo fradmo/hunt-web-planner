@@ -1035,6 +1035,8 @@ function showError(err){console.error('Erro no planner:',err);for(const id of ['
 // Bosses: first interactive migration; intentionally labeled proxy, not official game DPS.
 const BD=JSON.parse(document.getElementById('boss-database').textContent);
 const rarityValues={Common:1,Uncommon:1.03,Rare:1.06,Epic:1.10,Prismatic:1.15,Mythic:1.21,Astral:1.28,Divine:1.36,'Gênesis':1.42,Shiny:1.45,Fundador:1.50};
+const rarityOrder=Object.keys(rarityValues);
+function rarityOptions(sel){const chosen=sel.value;const ordered=[...sel.options].sort((a,b)=>rarityOrder.indexOf(a.value)-rarityOrder.indexOf(b.value));sel.replaceChildren(...ordered);sel.value=chosen;for(const o of sel.options){if(Object.hasOwn(rarityValues,o.value))o.textContent=`${o.value} (×${rarityValues[o.value].toFixed(2).replace('.',',')})`;}}
 const moveTypeColors={Normal:'#A8A77A',Fire:'#EE8130',Water:'#6390F0',Electric:'#F7D02C',Grass:'#7AC74C',Ice:'#96D9D6',Fighting:'#C22E28',Poison:'#A33EA1',Ground:'#E2BF65',Flying:'#A98FF3',Psychic:'#F95587',Bug:'#A6B91A',Rock:'#B6A136',Ghost:'#735797',Dragon:'#6F35FC',Dark:'#705746',Steel:'#B7B7CE',Fairy:'#D685AD'};
 function normalizeMoveType(type){
  const key=String(type||'').trim().toLowerCase();
@@ -1108,16 +1110,43 @@ function localSpriteForPokemon(p){
  return Number.isInteger(id)&&id>0&&id<=1025?'./assets/pokemon/'+id+'.png':'';
 }
 async function loadOfflineDex(){
- try{
-  const response=await fetch('./assets/pokemon-dex.json');
-  if(!response.ok)throw Error('Pokédex local não encontrado');
-  LOCAL_DEX_IDS=await response.json();
+ const storageKey='hunt-pokemon-dex-v1';
+ const refreshSprites=()=>{
   for(let i=0;i<2;i++){
    const img=document.querySelector('#custom-'+i+' .custom-sprite');
    if(img)img.dataset.species='';
    if(typeof refreshCustom==='function')refreshCustom(i);
   }
- }catch(err){console.warn('Sprites: execute Preparar_Dex_Offline.ps1 para criar assets/pokemon-dex.json',err)}
+  if(typeof updateBossSprite==='function')updateBossSprite();
+ };
+ const useMap=data=>{
+  if(!data||typeof data!=='object'||Object.keys(data).length<100)return false;
+  LOCAL_DEX_IDS=data;refreshSprites();return true;
+ };
+ try{
+  const cached=localStorage.getItem(storageKey);
+  if(cached&&useMap(JSON.parse(cached)))return;
+ }catch(e){}
+ try{
+  const response=await fetch('./assets/pokemon-dex.json');
+  if(response.ok){const data=await response.json();if(useMap(data)){
+   try{localStorage.setItem(storageKey,JSON.stringify(data))}catch(e){}return;
+  }}
+ }catch(e){}
+ // Recovery for packages published before the local index existed.
+ // On first online visit, retrieve the public National Pokédex and persist it
+ // so subsequent visits can resolve sprites without a network connection.
+ try{
+  const response=await fetch('https://raw.githubusercontent.com/PokeAPI/pokeapi/master/data/v2/csv/pokemon_species.csv',{cache:'force-cache'});
+  if(!response.ok)throw Error('National Dex unavailable');
+  const csv=await response.text(),map={};
+  for(const line of csv.split(/\r?\n/)){
+   const cols=line.split(','),id=Number(cols[0]),name=cols[1];
+   if(Number.isInteger(id)&&id>=1&&id<=1025&&name){map[normalizeDexName(name)]=id;}
+  }
+  Object.assign(map,{nidoranf:29,nidoranm:32,mrmime:122,mimejr:439,farfetchd:83,sirfetchd:865,flabebe:669,typenull:772,jangmoo:782,hakamoo:783,kommoo:784});
+  if(useMap(map)){try{localStorage.setItem(storageKey,JSON.stringify(map))}catch(e){}}
+ }catch(err){console.warn('National Dex offline index unavailable; using built-in sprite IDs.',err)}
 }
 window.addEventListener('DOMContentLoaded',loadOfflineDex);
 function updateBossSprite(){
@@ -1260,7 +1289,7 @@ function buildCustom(i){
  const header=node('div','custom-header');const badges=node('div','custom-badges');badges.append(node('span','custom-pwr','PWR: —'),node('span','custom-rank','—'));header.append(badges);card.append(node('div','custom-comparison',''));
  const fields=node('div','custom-fields');
  const speciesWrap=node('div','species-wrap');speciesWrap.append(selectField('Pokémon',BD.pokemon.map(x=>x.name),'pk-name',i===0?'Charizard':'Garchomp'));const sprite=node('img','custom-sprite');sprite.alt='Sprite Pokémon';sprite.loading='lazy';speciesWrap.append(sprite,header);fields.append(speciesWrap);
- const levelRarity=node('div','level-rarity');levelRarity.append(node('div','species-type-label','—'));const levelField=inputField('Nível',100,1,120,'pk-level');const speciesSelectRow=node('div','species-select-row');speciesSelectRow.append(speciesWrap.querySelector('.custom-field'),levelField);speciesWrap.append(speciesSelectRow);levelRarity.append(selectField('Raridade',Object.keys(rarityValues),'pk-rarity','Common'));fields.append(levelRarity);
+ const levelRarity=node('div','level-rarity');levelRarity.append(node('div','species-type-label','—'));const levelField=inputField('Nível',100,1,120,'pk-level');const speciesSelectRow=node('div','species-select-row');speciesSelectRow.append(speciesWrap.querySelector('.custom-field'),levelField);speciesWrap.append(speciesSelectRow);const rarityField=selectField('Raridade',rarityOrder,'pk-rarity','Common');rarityOptions(rarityField.querySelector('select'));levelRarity.append(rarityField);fields.append(levelRarity);
  const syncLevelPlacement=()=>{const mobile=window.matchMedia('(max-width:760px)').matches;const target=mobile?levelRarity:speciesSelectRow;if(levelField.parentElement!==target){if(mobile)target.insertBefore(levelField,levelRarity.querySelector('.pk-rarity')?.closest('.custom-field')||null);else target.append(levelField);}};
  syncLevelPlacement();window.addEventListener('resize',syncLevelPlacement,{passive:true});
  const natures=node('div','nature-stack');natures.append(selectField('Natureza +',natureStats,'pk-plus','Neutra'),selectField('Natureza −',natureStats,'pk-minus','Neutra'));fields.append(natures);
@@ -1271,7 +1300,7 @@ function buildCustom(i){
  for(let s=0;s<6;s++){const pair=node('div','stat-pair');pair.append(inputField(`IV ${statKeys[s]}`,15,0,31,`pk-iv pk-iv-${s}`));pair.append(inputField(`EV ${statKeys[s]}`,0,0,252,`pk-ev pk-ev-${s}`));stats.append(pair)}
  card.append(stats);
  const moveBox=node('div','custom-moves');
- for(let j=0;j<4;j++){const row=node('div','custom-move-row');const moveField=selectField(`Golpe ${j+1}`,['Nenhum'],'pk-move');const power=node('span','move-pwr-badge','—');moveField.append(power);row.append(moveField,selectField('Raridade',Object.keys(rarityValues).filter(r=>!['Gênesis','Shiny','Fundador'].includes(r)),'pk-mrarity','Common'));moveBox.append(row)}
+ for(let j=0;j<4;j++){const row=node('div','custom-move-row');const moveField=selectField(`Golpe ${j+1}`,['Nenhum'],'pk-move');const power=node('span','move-pwr-badge','—');moveField.append(power);const moveRarityField=selectField('Raridade',rarityOrder.filter(r=>!['Gênesis','Shiny','Fundador'].includes(r)),'pk-mrarity','Common');rarityOptions(moveRarityField.querySelector('select'));row.append(moveField,moveRarityField);moveBox.append(row)}
  const itemBox=node('div','custom-items');itemBox.append(node('div','item-heading','🎒 Itens equipados (até 5)'));
  for(let k=0;k<5;k++){const field=selectField('Item '+(k+1),heldItems,'pk-item','Nenhum');field.classList.add('item-hint-wrap');const tip=node('span','item-tooltip','Passe o mouse para ver o efeito do item selecionado.');tip.setAttribute('role','tooltip');field.append(tip);if(k)field.classList.add('item-hidden');itemBox.append(field)}
  itemBox.append(node('p','item-note','0 de 5 itens selecionados'));

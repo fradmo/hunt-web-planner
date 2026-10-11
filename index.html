@@ -1064,31 +1064,25 @@ const MEGA_FORM_NAMES={
  'Mega Steelix':'steelix-mega','Mega Swampert':'swampert-mega','Mega Tyranitar':'tyranitar-mega',
  'Mega Venusaur':'venusaur-mega','Mega Wobbuffet':null,'Mega Raichu':null
 };
-const megaSpriteCache=new Map();let bossSpriteRequest=0;
-async function updateBossSprite(){
- const img=byId('bossSprite'),fallback=byId('bossSpriteFallback'),name=bossChosen()?.name||'';
- const id=BOSS_SPRITE_IDS[name],request=++bossSpriteRequest;
- img.style.display='none';fallback.style.display='';img.alt='Pixel art: '+name;
- if(!id){fallback.textContent='◈';return;}
- const base='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/';
- let sources=[];
+const POKEMON_LOCAL_IDS={"Bulbasaur":1,"Ivysaur":2,"Venusaur":3,"Charmander":4,"Charmeleon":5,"Charizard":6,"Squirtle":7,"Wartortle":8,"Blastoise":9,"Pikachu":25,"Raichu":26,"Abra":63,"Kadabra":64,"Alakazam":65,"Gengar":94,"Gyarados":130,"Eevee":133,"Snorlax":143,"Dragonite":149,"Mewtwo":150,"Mew":151,"Tyranitar":248,"Sceptile":254,"Blaziken":257,"Swampert":260,"Gardevoir":282,"Absol":359,"Metagross":376,"Garchomp":445,"Lucario":448,"Greninja":658};
+let bossSpriteRequest=0;
+function localSpriteForPokemon(p){
+ const name=String(p?.name||'');
  if(name.startsWith('Mega ')){
   const form=MEGA_FORM_NAMES[name];
-  if(form){
-   try{
-    let megaId=megaSpriteCache.get(form);
-    if(!megaId){const response=await fetch('https://pokeapi.co/api/v2/pokemon/'+encodeURIComponent(form));if(!response.ok)throw Error('Form unavailable');const data=await response.json();megaId=data.id;megaSpriteCache.set(form,megaId)}
-    if(request!==bossSpriteRequest)return;
-    // ORAS sprites are the closest in the original PokéAPI collection to the Gen V pixel-art style.
-    sources=[base+'versions/generation-vi/omegaruby-alphasapphire/'+megaId+'.png',base+'versions/generation-vi/x-y/'+megaId+'.png',base+megaId+'.png'];
-   }catch(e){console.warn('Mega sprite unavailable:',form,e)}
-  }else{console.warn('Mega form not found in PokéAPI:',name)}
- }else sources=[base+'versions/generation-v/black-white/'+id+'.png',base+id+'.png'];
- if(!sources.length){fallback.textContent='◈';return;}
- let index=0;
+  return form?'./assets/megas/'+form+'.png':(BOSS_SPRITE_IDS[name]?'./assets/pokemon/'+BOSS_SPRITE_IDS[name]+'.png':'');
+ }
+ const id=Number(p?.id||p?.dex||p?.number||BOSS_SPRITE_IDS[name]||POKEMON_LOCAL_IDS[name]);
+ return Number.isInteger(id)&&id>0&&id<=1025?'./assets/pokemon/'+id+'.png':'';
+}
+function updateBossSprite(){
+ const img=byId('bossSprite'),fallback=byId('bossSpriteFallback'),name=bossChosen()?.name||'';
+ const request=++bossSpriteRequest,src=localSpriteForPokemon({name});
+ img.style.display='none';fallback.style.display='';img.alt='Pixel art: '+name;
+ if(!src){fallback.textContent='◈';return;}
  img.onload=()=>{if(request!==bossSpriteRequest)return;img.style.display='block';fallback.style.display='none'};
- img.onerror=()=>{if(request!==bossSpriteRequest)return;if(++index<sources.length)img.src=sources[index];else{img.style.display='none';fallback.textContent='◈';fallback.style.display=''}};
- img.src=sources[0];
+ img.onerror=()=>{if(request!==bossSpriteRequest)return;img.style.display='none';fallback.textContent='◈';fallback.style.display=''};
+ img.src=src;
 }
 
 function itemMultiplier(move,items,gem='Nenhuma'){
@@ -1261,7 +1255,7 @@ function refreshCustom(i){
   const col={'Normal':'#64748b','Lutador':'#a84034','Voador':'#4777a9','Veneno':'#7b379e','Terra':'#a36d35','Pedra':'#9a812d','Inseto':'#4d8d21','Fantasma':'#53369c','Metal':'#337f91','Fogo':'#b94b13','Água':'#1465b9','Planta':'#23783b','Elétrico':'#a98800','Psíquico':'#bd426e','Gelo':'#1a9b9d','Dragão':'#344eb0','Sombrio':'#4b4267','Fada':'#b83f9d'};
   bar.replaceChildren();types.forEach((t,k)=>{const pill=node('span','type-pill');pill.style.setProperty('--pill-color',col[t]||'#465');const img=node('img');img.src='assets/'+iconIdx[t]+'.png';img.alt='';pill.append(img,document.createTextNode(t));bar.append(pill)})
  }
- const sprite=c.querySelector('.custom-sprite');const banner=c.querySelector('.species-wrap');if(banner){const t=String((p.types||[])[0]||'normal').toLowerCase();const colors={fogo:'#9a3f22',agua:'#165d99',planta:'#397a35',eletrico:'#9b7922',dragao:'#44409b',fantasma:'#5c4184',sombrio:'#383348',fada:'#9b4b93',gelo:'#327f91',terra:'#795332',pedra:'#665b43',lutador:'#833d35',voador:'#486b9c',veneno:'#72428e',metal:'#54667c',inseto:'#64772e',psiquico:'#963d64',normal:'#4a5362'};banner.style.setProperty('--species-accent',colors[t]||'#4a5362');}if(sprite){const spriteName=p.name.toLowerCase().replace(/^mega /,'').replace(/[^a-z0-9 -]/g,'').replace(/ /g,'-');if(sprite.dataset.species!==spriteName){sprite.dataset.species=spriteName;sprite.src='https://play.pokemonshowdown.com/sprites/gen5/'+spriteName+'.png';sprite.onerror=()=>{sprite.style.visibility='hidden'};sprite.onload=()=>{sprite.style.visibility='visible'};}}
+ const sprite=c.querySelector('.custom-sprite');const banner=c.querySelector('.species-wrap');if(banner){const t=String((p.types||[])[0]||'normal').toLowerCase();const colors={fogo:'#9a3f22',agua:'#165d99',planta:'#397a35',eletrico:'#9b7922',dragao:'#44409b',fantasma:'#5c4184',sombrio:'#383348',fada:'#9b4b93',gelo:'#327f91',terra:'#795332',pedra:'#665b43',lutador:'#833d35',voador:'#486b9c',veneno:'#72428e',metal:'#54667c',inseto:'#64772e',psiquico:'#963d64',normal:'#4a5362'};banner.style.setProperty('--species-accent',colors[t]||'#4a5362');}if(sprite){const spriteName=p.name.toLowerCase().replace(/^mega /,'').replace(/[^a-z0-9 -]/g,'').replace(/ /g,'-');if(sprite.dataset.species!==spriteName){sprite.dataset.species=spriteName;sprite.src=localSpriteForPokemon(p)||'';sprite.onerror=()=>{sprite.style.visibility='hidden'};sprite.onload=()=>{sprite.style.visibility='visible'};}}
  const level=Math.max(1,Math.min(120,Number(c.querySelector('.pk-level').value)||100));
  const rarity=c.querySelector('.pk-rarity').value,iv=[],ev=[];
  for(let j=0;j<6;j++){iv.push(Math.max(0,Math.min(31,Number(c.querySelector('.pk-iv-'+j).value)||0)));ev.push(Math.max(0,Math.min(252,Number(c.querySelector('.pk-ev-'+j).value)||0)))}

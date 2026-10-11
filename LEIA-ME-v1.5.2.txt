@@ -1,0 +1,1 @@
+v1.5.2: dual backgrounds deslocados 7px à esquerda; ícones PWA maiores e transparentes; sprites Mega resolvidos por forma no PokéAPI (necessita conexão), com fallback entre Gen VI e sprite padrão. Mega Raichu/Wobbuffet não têm forma Mega padrão confirmada e exibem símbolo substituto. Nenhuma alteração nos cálculos.

@@ -1,1 +1,0 @@
-Hunt Web Planner v1.0.4: PWR exibido como inteiro dividido por 10; rank e PWR no canto superior direito dos personalizados; golpes coloridos por tipo. Ranking usa os valores internos sem arredondamento. Substitua somente index.html.

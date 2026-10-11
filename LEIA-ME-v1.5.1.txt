@@ -1,5 +1,0 @@
-HUNT PLANNER v1.5.1
-- Movesets: seletores Tipo e Pokémon dependentes, Nenhum inicial.
-- Catch Dex: hover, foco ou toque no nome revela locais registrados na base de áreas.
-- PWA: ícones PNG com transparência real e símbolo ampliado; manifest com purpose any.
-- Pode ser necessário remover/reinstalar o PWA no Android para atualizar ícone em cache.

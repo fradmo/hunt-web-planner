@@ -1,5 +1,0 @@
-HUNT PLANNER v1.5.4 — Sprites locais e cache offline
-
-Publique todo o ZIP no GitHub Pages. A primeira visita requer internet para armazenar os arquivos; aguarde a instalação do Service Worker.
-Sprites Mega Raichu e Mega Wobbuffet não estão no pacote, usam sprites comuns.
-Os sprites personalizados fora do mapa de IDs ainda precisam de mapeamento; Bosses têm suporte local completo.

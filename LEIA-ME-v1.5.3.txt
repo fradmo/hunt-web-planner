@@ -1,1 +1,0 @@
-v1.5.3: Icone azul escuro, logo maior e icones maskable. Ainda nao e a versao totalmente offline; sprites remotos permanecem nesta versao.

@@ -1,8 +1,0 @@
-HUNT PLANNER v1.3.6 — Cards compactos + instalação PWA
-
-Publique TODOS os arquivos e a pasta assets no mesmo diretório de seu GitHub Pages.
-Abra o site via HTTPS (não via file://). Android Chrome: menu ⋮ > Instalar app ou Adicionar à tela inicial.
-No iPhone Safari: Compartilhar > Adicionar à Tela de Início.
-A instalação depende do navegador; não é um APK da Play Store.
-O cache funciona para recursos locais visitados, mas sprites remotos podem exigir internet.
-O serviço de cache poderá demorar um recarregamento para atualizar após a publicação.

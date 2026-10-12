@@ -872,7 +872,7 @@ body .shell main > section.panel.active, body .shell section.panel.active {displ
 <h2 class="boss-section-title">🎮 Personalize o Seu</h2><div id="customBoss" class="boss-custom-grid"></div>
 <p class="disclaimer">PWR comparativo (escala ×100): poder/recarga × STAB × efetividade × ataque/defesa do boss, conforme a fórmula da planilha. Categoria genérica «dano» usa médias de Ataque/ATK ESP e DEF/DEF ESP. Raridade, EV, IV, natureza e itens ofensivos aplicados aos personalizados. Couraça reduz o PWR ofensivo em 30%; Fúria aumenta a estimativa ofensiva do boss em 50%. Outros afixos não estão simulados integralmente; não é DPS oficial.</p></section>
 <section id="catchdex" class="panel hunt-new-panel"><div class="heading"><h1>Catch Dex</h1><p>Selecione um tipo para listar os Pokémon do menor para o maior valor de captura.</p></div>
-<div class="hunt-new-filters"><label>Tipo<select id="dexType"><option value="">Nenhum</option></select></label></div>
+<div class="hunt-new-filters hunt-dex-filters"><label>Tipo<select id="dexType"><option value="">Nenhum</option></select></label><label>Pesquisar Pokémon<input id="dexSearch" type="search" placeholder="Digite o nome do Pokémon" autocomplete="off" aria-label="Pesquisar Pokémon no Catch Dex"></label></div>
 <div id="dexResult" class="hunt-placeholder">Selecione um tipo para ver os Pokémon.</div></section>
 <section id="movesets" class="panel hunt-new-panel"><div class="heading"><h1>Moveset Optimizer</h1><p>Quatro golpes ofensivos para enfrentar cada tipo adversário. Raridade dos golpes: Common.</p></div>
 <div class="hunt-new-filters"><label>Tipo<select id="optimizerType"><option value="">Nenhum</option></select></label><label>Pokémon<select id="optimizerPokemon"><option value="">Nenhum</option></select></label><label>HP estimado do alvo<input id="optimizerHP" type="number" min="100" max="1000000" step="100" value="10000"></label></div>
@@ -1499,19 +1499,19 @@ const data=window.EMBEDDED_DATA||typeof EMBEDDED_DATA!=='undefined'&&EMBEDDED_DA
 const boss=typeof BD!=='undefined'&&BD;
 if(!data||!boss)return;
 const types=[...data.types].sort((a,b)=>a.localeCompare(b,'pt-BR'));
-const dex=q('dexType'),pick=q('optimizerPokemon'),optType=q('optimizerType');
+const dex=q('dexType'),dexSearch=q('dexSearch'),pick=q('optimizerPokemon'),optType=q('optimizerType');
 for(const type of types)dex.add(new Option(type,type));
 for(const type of types)optType.add(new Option(type,type));
 function updateOptimizerPokemon(){const previous=pick.value;pick.replaceChildren(new Option('Nenhum',''));if(optType.value){for(const p of [...boss.pokemon].filter(p=>p.types?.includes(optType.value)).sort((a,b)=>a.name.localeCompare(b.name,'pt-BR')))pick.add(new Option(p.name,p.name));}if([...pick.options].some(o=>o.value===previous))pick.value=previous;renderOptimizer();}
 optType.addEventListener('change',updateOptimizerPokemon);
 function catchColor(v){return v>=6000?'#bca0ff':v>=401?'#ff8b80':v>=101?'#f4d66c':'#80e3a5'}
-function renderDex(){const type=dex.value,el=q('dexResult');el.replaceChildren();if(!type){el.className='hunt-placeholder';el.textContent='Selecione um tipo para ver os Pokémon.';return;}
- el.className='hunt-dex-list';const entries=new Map();for(const row of data.rows){if(!row.types?.includes(type)||!row.pokemon||!Number.isFinite(Number(row.catch)))continue;const k=row.pokemon;const val=Number(row.catch);if(!entries.has(k)||val<entries.get(k))entries.set(k,val)}
+function renderDex(){const type=dex.value,query=String(dexSearch.value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim(),el=q('dexResult');el.replaceChildren();if(!type&&!query){el.className='hunt-placeholder';el.textContent='Selecione um tipo para ver os Pokémon.';return;}
+ el.className='hunt-dex-list';const entries=new Map();for(const row of data.rows){if((type&&!row.types?.includes(type))||!row.pokemon||!Number.isFinite(Number(row.catch)))continue;if(query&&!String(row.pokemon).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().includes(query))continue;const k=row.pokemon;const val=Number(row.catch);if(!entries.has(k)||val<entries.get(k))entries.set(k,val)}
  const locations=new Map();for(const row of data.rows){if(!row.pokemon)continue;const loc=`${row.region} · ${row.zone} · Área ${row.area} · Nv. ${row.level}`;if(!locations.has(row.pokemon))locations.set(row.pokemon,new Set());locations.get(row.pokemon).add(loc)}
  const sorted=[...entries].sort((a,b)=>a[1]-b[1]||a[0].localeCompare(b[0]));if(!sorted.length){el.className='hunt-placeholder';el.textContent='Nenhum Pokémon encontrado para este tipo.';return}
  for(const [name,val] of sorted){const item=document.createElement('div');item.className='hunt-dex-entry';const n=document.createElement('span');n.className='hunt-dex-name';n.textContent=name;n.tabIndex=0;n.setAttribute('role','button');n.setAttribute('aria-label',`Ver locais de ${name}`);const found=[...(locations.get(name)||[])];const tip=document.createElement('div');tip.className='hunt-dex-tooltip';const head=document.createElement('strong');head.textContent=`Onde encontrar ${name}`;tip.append(head);if(found.length){for(const location of found){const line=document.createElement('div');line.textContent=location;tip.append(line)}}else{const line=document.createElement('div');line.textContent='Localização não disponível na base de áreas.';tip.append(line)}n.append(tip);n.title=found.length?`${name}: ${found.join(' | ')}`:'Localização não disponível';n.addEventListener('click',e=>{e.stopPropagation();const open=n.classList.contains('hunt-tip-open');document.querySelectorAll('.hunt-tip-open').forEach(el=>el.classList.remove('hunt-tip-open'));if(!open)n.classList.add('hunt-tip-open')});n.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();n.click()}if(e.key==='Escape')n.classList.remove('hunt-tip-open')});const score=document.createElement('strong');score.className='hunt-catch-score';score.style.color=catchColor(val);score.textContent=val.toLocaleString('pt-BR');item.append(n,score);el.append(item)}
 }
-dex.addEventListener('change',renderDex);renderDex();
+dex.addEventListener('change',renderDex);dexSearch.addEventListener('input',renderDex);renderDex();
 const ptToEnglish={Normal:'normal',Fogo:'fire','Água':'water','Elétrico':'electric',Planta:'grass',Gelo:'ice',Lutador:'fighting',Veneno:'poison',Terra:'ground',Voador:'flying','Psíquico':'psychic',Inseto:'bug',Pedra:'rock',Fantasma:'ghost','Dragão':'dragon',Sombrio:'dark',Metal:'steel',Fada:'fairy'};
 const specialDots={
  'ember':{kind:'burn',rate:.01,duration:6,chance:.10},
@@ -1542,4 +1542,53 @@ function renderOptimizer(){const p=boss.pokemon.find(x=>x.name===pick.value),roo
 }
 pick.addEventListener('change',renderOptimizer);q('optimizerHP').addEventListener('change',renderOptimizer);document.addEventListener('click',()=>document.querySelectorAll('.hunt-tip-open').forEach(el=>el.classList.remove('hunt-tip-open')));updateOptimizerPokemon();
 })();
-</script></body></html>
+</script><style id="hunt-v1517-styles">
+.hunt-dex-filters{display:grid!important;grid-template-columns:minmax(115px,1fr) minmax(160px,1.5fr)!important;align-items:end;gap:10px}
+.hunt-dex-filters input{width:100%;min-width:0;height:39px;border-radius:8px;padding:8px 10px;background:#263547;border:1px solid #59687b;color:white;box-sizing:border-box;font:inherit}
+.hunt-search-picker{position:relative;min-width:0;width:100%}
+.hunt-search-picker>.hunt-search-input{width:100%!important;min-width:0!important;box-sizing:border-box!important;border:1px solid #59687b!important;border-radius:7px!important;background:#394657!important;color:#fff!important;padding:5px 28px 5px 8px!important;height:34px!important;font:inherit!important}
+.hunt-search-picker>.hunt-search-toggle{position:absolute;right:0;top:0;height:34px;width:28px;background:transparent;color:#b9d5ef;border:0;cursor:pointer}
+.hunt-search-picker>.hunt-search-list{position:absolute;z-index:9999;top:100%;left:0;right:0;max-height:220px;overflow-y:auto;overscroll-behavior:contain;background:#1c2a3c;border:1px solid #657d98;border-radius:6px;box-shadow:0 10px 25px #0009;padding:3px;display:none}
+.hunt-search-picker.open>.hunt-search-list{display:block}
+.hunt-search-picker .hunt-search-choice{display:block;width:100%;border:0;text-align:left;padding:8px 9px;border-radius:4px;color:#fff;background:transparent;font:inherit;cursor:pointer;white-space:normal}
+.hunt-search-picker .hunt-search-choice:hover,.hunt-search-picker .hunt-search-choice:focus{background:#3c5878}
+.hunt-search-picker .hunt-search-empty{padding:10px;color:#bdc8d8;font-size:12px}
+.hunt-search-picker select.hunt-hidden-select{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;left:0!important;top:0!important;min-width:0!important;min-height:0!important}
+@media(max-width:450px){.hunt-dex-filters{grid-template-columns:minmax(0,1fr) minmax(0,1.4fr)!important}.hunt-dex-filters input{font-size:12px}}
+</style>
+<script id="hunt-v1517-analytics-search">
+(()=>{
+'use strict';
+// Consent-first GA4: no remote request before explicit opt-in. No search terms or Pokémon names are sent.
+const measurementId='G-B614T5G0ER', consentKey='hunt-analytics-consent-v1';
+let analyticsReady=false;
+function startAnalytics(){if(analyticsReady||!navigator.onLine)return;analyticsReady=true;window.dataLayer=window.dataLayer||[];window.gtag=function(){window.dataLayer.push(arguments)};window.gtag('js',new Date());window.gtag('config',measurementId,{send_page_view:true,anonymize_ip:true});const script=document.createElement('script');script.async=true;script.src='https://www.googletagmanager.com/gtag/js?id='+measurementId;document.head.append(script)}
+function trackTab(tab){if(analyticsReady&&typeof window.gtag==='function')window.gtag('event','planner_tab_view',{tab_name:tab})}
+function consentBanner(){let saved=null;try{saved=localStorage.getItem(consentKey)}catch(e){}if(saved==='yes'){startAnalytics();return}if(saved==='no')return;
+ const bar=document.createElement('aside');bar.setAttribute('role','dialog');bar.setAttribute('aria-label','Preferências de estatísticas');bar.style.cssText='position:fixed;z-index:100000;bottom:12px;left:12px;right:12px;max-width:550px;margin:auto;background:#172536;color:#fff;border:1px solid #62809e;border-radius:12px;padding:14px;box-shadow:0 8px 28px #000b;font:13px/1.5 system-ui';
+ const msg=document.createElement('div');msg.textContent='Podemos coletar estatísticas anônimas de visitas e uso das abas para melhorar o HUNT PLANNER? As pesquisas digitadas não são enviadas. O site funciona normalmente se você recusar.';bar.append(msg);
+ const actions=document.createElement('div');actions.style.cssText='display:flex;gap:10px;justify-content:flex-end;margin-top:10px';
+ for(const [label,value] of [['Recusar','no'],['Aceitar','yes']]){const btn=document.createElement('button');btn.textContent=label;btn.type='button';btn.style.cssText='padding:7px 14px;border:1px solid #7794b2;border-radius:7px;background:'+(value==='yes'?'#426aa4':'#283c53')+';color:white;cursor:pointer';btn.addEventListener('click',()=>{try{localStorage.setItem(consentKey,value)}catch(e){}bar.remove();if(value==='yes')startAnalytics()});actions.append(btn)}bar.append(actions);document.body.append(bar)}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',consentBanner);else consentBanner();
+window.addEventListener('online',()=>{try{if(localStorage.getItem(consentKey)==='yes')startAnalytics()}catch(e){}});
+document.querySelectorAll('[data-tab]').forEach(btn=>btn.addEventListener('click',()=>trackTab(btn.dataset.tab)));
+// A native select remains the single source of truth; searchable control mirrors options and dispatches change.
+const normal=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+function enhance(select){if(!select||select.dataset.huntSearchEnhanced)return;select.dataset.huntSearchEnhanced='1';
+ const wrap=document.createElement('div');wrap.className='hunt-search-picker';select.parentNode.insertBefore(wrap,select);wrap.append(select);select.classList.add('hunt-hidden-select');select.tabIndex=-1;
+ const input=document.createElement('input');input.type='search';input.className='hunt-search-input';input.setAttribute('aria-label','Digite para procurar '+(select.id==='bossName'?'boss':'Pokémon'));input.setAttribute('autocomplete','off');input.placeholder='Digite ou escolha…';
+ const toggle=document.createElement('button');toggle.type='button';toggle.className='hunt-search-toggle';toggle.textContent='▾';toggle.setAttribute('aria-label','Abrir lista de opções');
+ const list=document.createElement('div');list.className='hunt-search-list';list.setAttribute('role','listbox');wrap.append(input,toggle,list);
+ let dirty=false;
+ function sync(){if(dirty)return;const chosen=select.selectedOptions[0];input.value=chosen&&chosen.value?chosen.textContent.trim():''}
+ function show(){wrap.classList.add('open');draw()}
+ function hide(){wrap.classList.remove('open');dirty=false;sync()}
+ function draw(){list.replaceChildren();const query=normal(input.value.trim());const options=[...select.options].filter(o=>o.value&&(!query||normal(o.textContent).includes(query)));for(const opt of options.slice(0,150)){const b=document.createElement('button');b.type='button';b.className='hunt-search-choice';b.textContent=opt.textContent;b.setAttribute('role','option');b.setAttribute('aria-selected',String(select.value===opt.value));b.addEventListener('pointerdown',e=>e.preventDefault());b.addEventListener('click',()=>{select.value=opt.value;select.dispatchEvent(new Event('change',{bubbles:true}));hide()});list.append(b)}if(!options.length){const empty=document.createElement('div');empty.className='hunt-search-empty';empty.textContent='Nenhum resultado';list.append(empty)}}
+ input.addEventListener('focus',()=>{dirty=true;input.select();show()});input.addEventListener('input',()=>{dirty=true;show()});input.addEventListener('keydown',e=>{if(e.key==='Escape'){hide();input.blur()}if(e.key==='Enter'&&wrap.classList.contains('open')){const first=list.querySelector('button');if(first){e.preventDefault();first.click()}}});toggle.addEventListener('click',()=>{if(wrap.classList.contains('open'))hide();else{dirty=true;input.value='';show();input.focus()}});
+ select.addEventListener('change',()=>{dirty=false;sync()});new MutationObserver(()=>{if(wrap.classList.contains('open'))draw();else sync()}).observe(select,{childList:true,subtree:true,characterData:true});document.addEventListener('pointerdown',e=>{if(!wrap.contains(e.target)&&wrap.classList.contains('open'))hide()});sync();}
+ function scan(){document.querySelectorAll('#bossName,#optimizerPokemon,#bosses select.pk-name').forEach(enhance)}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',scan);else scan();
+ new MutationObserver(()=>scan()).observe(document.body,{childList:true,subtree:true});
+})();
+</script>
+</body></html>

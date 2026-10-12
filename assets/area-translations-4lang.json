@@ -1,0 +1,438 @@
+{
+  "Floresta": {
+    "names": {
+      "pt": "Floresta",
+      "en": "Forest",
+      "es": "Bosque",
+      "zh": "森林"
+    },
+    "zones": {
+      "1": {
+        "pt": "Orla da Mata",
+        "en": "Forest Edge",
+        "es": "Linde del Bosque",
+        "zh": "森林边缘"
+      },
+      "2": {
+        "pt": "Trilha Fechada",
+        "en": "Closed Trail",
+        "es": "Sendero Cerrado",
+        "zh": "密林小径"
+      },
+      "3": {
+        "pt": "Bosque Antigo",
+        "en": "Ancient Grove",
+        "es": "Bosque Antiguo",
+        "zh": "古老树林"
+      },
+      "4": {
+        "pt": "Raízes Torcidas",
+        "en": "Twisted Roots",
+        "es": "Raíces Torcidas",
+        "zh": "盘根林"
+      },
+      "5": {
+        "pt": "Coração Verde",
+        "en": "Green Heart",
+        "es": "Corazón Verde",
+        "zh": "翠绿之心"
+      },
+      "6": {
+        "pt": "Kalos",
+        "en": "Kalos",
+        "es": "Kalos",
+        "zh": "卡洛斯"
+      },
+      "7": {
+        "pt": "Elite",
+        "en": "Elite",
+        "es": "Élite",
+        "zh": "精英"
+      },
+      "8": {
+        "pt": "Mega",
+        "en": "Mega",
+        "es": "Mega",
+        "zh": "超级"
+      }
+    }
+  },
+  "Planície": {
+    "names": {
+      "pt": "Planície",
+      "en": "Plains",
+      "es": "Llanura",
+      "zh": "平原"
+    },
+    "zones": {
+      "1": {
+        "pt": "Campo Aberto",
+        "en": "Open Field",
+        "es": "Campo Abierto",
+        "zh": "开阔原野"
+      },
+      "2": {
+        "pt": "Pastagem Alta",
+        "en": "Tall Pasture",
+        "es": "Pastizal Alto",
+        "zh": "高地牧场"
+      },
+      "3": {
+        "pt": "Colinas ao Vento",
+        "en": "Windswept Hills",
+        "es": "Colinas del Viento",
+        "zh": "迎风丘陵"
+      },
+      "4": {
+        "pt": "Planalto",
+        "en": "Highlands",
+        "es": "Altiplano",
+        "zh": "高原"
+      },
+      "5": {
+        "pt": "Kalos",
+        "en": "Kalos",
+        "es": "Kalos",
+        "zh": "卡洛斯"
+      },
+      "6": {
+        "pt": "Elite",
+        "en": "Elite",
+        "es": "Élite",
+        "zh": "精英"
+      },
+      "7": {
+        "pt": "Mega",
+        "en": "Mega",
+        "es": "Mega",
+        "zh": "超级"
+      }
+    }
+  },
+  "Mar & Costa": {
+    "names": {
+      "pt": "Mar & Costa",
+      "en": "Sea & Coast",
+      "es": "Mar y Costa",
+      "zh": "海与海岸"
+    },
+    "zones": {
+      "1": {
+        "pt": "Costa Rasa",
+        "en": "Shallow Coast",
+        "es": "Costa Baja",
+        "zh": "浅滩海岸"
+      },
+      "2": {
+        "pt": "Recife",
+        "en": "Reef",
+        "es": "Arrecife",
+        "zh": "浅滩海岸"
+      },
+      "3": {
+        "pt": "Mar Aberto",
+        "en": "Open Sea",
+        "es": "Mar Abierto",
+        "zh": "礁石"
+      },
+      "4": {
+        "pt": "Fossa",
+        "en": "Trench",
+        "es": "Fosa",
+        "zh": "开阔海域"
+      },
+      "5": {
+        "pt": "Kalos",
+        "en": "Kalos",
+        "es": "Kalos",
+        "zh": "卡洛斯"
+      },
+      "6": {
+        "pt": "Elite",
+        "en": "Elite",
+        "es": "Élite",
+        "zh": "精英"
+      },
+      "7": {
+        "pt": "Mega",
+        "en": "Mega",
+        "es": "Mega",
+        "zh": "超级"
+      }
+    }
+  },
+  "Caverna": {
+    "names": {
+      "pt": "Caverna",
+      "en": "Cave",
+      "es": "Cueva",
+      "zh": "洞穴"
+    },
+    "zones": {
+      "1": {
+        "pt": "Boca da Gruta",
+        "en": "Cave Mouth",
+        "es": "Boca de la Cueva",
+        "zh": "洞窟入口"
+      },
+      "2": {
+        "pt": "Galeria Funda",
+        "en": "Deep Gallery",
+        "es": "Galeria Profunda",
+        "zh": "深邃坑道"
+      },
+      "3": {
+        "pt": "Veio de Rocha",
+        "en": "Rock Vein",
+        "es": "Vena de Roca",
+        "zh": "岩脉"
+      },
+      "4": {
+        "pt": "Kalos",
+        "en": "Kalos",
+        "es": "Kalos",
+        "zh": "卡洛斯"
+      },
+      "5": {
+        "pt": "Elite",
+        "en": "Elite",
+        "es": "Élite",
+        "zh": "精英"
+      },
+      "6": {
+        "pt": "Mega",
+        "en": "Mega",
+        "es": "Mega",
+        "zh": "超级"
+      }
+    }
+  },
+  "Cidade & Usina": {
+    "names": {
+      "pt": "Cidade & Usina",
+      "en": "City & Power Plant",
+      "es": "Ciudad y Central",
+      "zh": "城市与电厂"
+    },
+    "zones": {
+      "1": {
+        "pt": "Subúrbio",
+        "en": "Suburb",
+        "es": "Suburbio",
+        "zh": "郊区"
+      },
+      "2": {
+        "pt": "Usina",
+        "en": "Power Plant",
+        "es": "Central Eléctrica",
+        "zh": "电厂"
+      },
+      "3": {
+        "pt": "Kalos",
+        "en": "Kalos",
+        "es": "Kalos",
+        "zh": "卡洛斯"
+      },
+      "4": {
+        "pt": "Elite",
+        "en": "Elite",
+        "es": "Élite",
+        "zh": "精英"
+      },
+      "5": {
+        "pt": "Mega",
+        "en": "Mega",
+        "es": "Mega",
+        "zh": "超级"
+      }
+    }
+  },
+  "Santuário Psíquico": {
+    "names": {
+      "pt": "Santuário Psíquico",
+      "en": "Psychic Sanctum",
+      "es": "Santuario Psíquico",
+      "zh": "超能力圣殿"
+    },
+    "zones": {
+      "1": {
+        "pt": "Claustro",
+        "en": "Cloister",
+        "es": "Claustro",
+        "zh": "回廊"
+      },
+      "2": {
+        "pt": "Câmara Interior",
+        "en": "Inner Chamber",
+        "es": "Cámara Interior",
+        "zh": "内室"
+      },
+      "3": {
+        "pt": "Elite",
+        "en": "Elite",
+        "es": "Élite",
+        "zh": "精英"
+      },
+      "4": {
+        "pt": "Mega",
+        "en": "Mega",
+        "es": "Mega",
+        "zh": "超级"
+      }
+    }
+  },
+  "Pântano": {
+    "names": {
+      "pt": "Pântano",
+      "en": "Swamp",
+      "es": "Pantano",
+      "zh": "沼泽"
+    },
+    "zones": {
+      "1": {
+        "pt": "Charco Raso",
+        "en": "Shallow Marsh",
+        "es": "Ciénaga Baja",
+        "zh": "浅沼"
+      },
+      "2": {
+        "pt": "Lodaçal",
+        "en": "Mire",
+        "es": "Lodazal",
+        "zh": "泥沼"
+      },
+      "3": {
+        "pt": "Elite",
+        "en": "Elite",
+        "es": "Élite",
+        "zh": "精英"
+      },
+      "4": {
+        "pt": "Mega",
+        "en": "Mega",
+        "es": "Mega",
+        "zh": "超级"
+      }
+    }
+  },
+  "Vulcão": {
+    "names": {
+      "pt": "Vulcão",
+      "en": "Volcano",
+      "es": "Volcán",
+      "zh": "火山"
+    },
+    "zones": {
+      "1": {
+        "pt": "Encosta de Cinzas",
+        "en": "Ash Slope",
+        "es": "Ladera de Ceniza",
+        "zh": "灰烬山坡"
+      },
+      "2": {
+        "pt": "Caldeira",
+        "en": "Caldera",
+        "es": "Caldera",
+        "zh": "火山口"
+      },
+      "3": {
+        "pt": "Kalos",
+        "en": "Kalos",
+        "es": "Kalos",
+        "zh": "卡洛斯"
+      },
+      "4": {
+        "pt": "Elite",
+        "en": "Elite",
+        "es": "Élite",
+        "zh": "精英"
+      },
+      "5": {
+        "pt": "Mega",
+        "en": "Mega",
+        "es": "Mega",
+        "zh": "超级"
+      }
+    }
+  },
+  "Torre Assombrada": {
+    "names": {
+      "pt": "Torre Assombrada",
+      "en": "Haunted Tower",
+      "es": "Torre Encantada",
+      "zh": "闹鬼高塔"
+    },
+    "zones": {
+      "1": {
+        "pt": "Nave da Torre",
+        "en": "Tower Nave",
+        "es": "Nave de la Torre",
+        "zh": "高塔中殿"
+      },
+      "2": {
+        "pt": "Campanário",
+        "en": "Belfry",
+        "es": "Campanario",
+        "zh": "钟楼"
+      },
+      "3": {
+        "pt": "Kalos",
+        "en": "Kalos",
+        "es": "Kalos",
+        "zh": "卡洛斯"
+      },
+      "4": {
+        "pt": "Elite",
+        "en": "Elite",
+        "es": "Élite",
+        "zh": "精英"
+      },
+      "5": {
+        "pt": "Mega",
+        "en": "Mega",
+        "es": "Mega",
+        "zh": "超级"
+      }
+    }
+  },
+  "Montanha Gelada": {
+    "names": {
+      "pt": "Montanha Gelada",
+      "en": "Frozen Mountain",
+      "es": "Montaña Helada",
+      "zh": "冰封山脉"
+    },
+    "zones": {
+      "1": {
+        "pt": "Sopé Nevado",
+        "en": "Snowy Foothills",
+        "es": "Falda Nevada",
+        "zh": "雪山山麓"
+      },
+      "2": {
+        "pt": "Cume",
+        "en": "Summit",
+        "es": "Cumbre",
+        "zh": "峰顶"
+      },
+      "3": {
+        "pt": "Kalos",
+        "en": "Kalos",
+        "es": "Kalos",
+        "zh": "卡洛斯"
+      },
+      "4": {
+        "pt": "Elite",
+        "en": "Elite",
+        "es": "Élite",
+        "zh": "精英"
+      },
+      "5": {
+        "pt": "Mega",
+        "en": "Mega",
+        "es": "Mega",
+        "zh": "超级"
+      }
+    }
+  }
+}

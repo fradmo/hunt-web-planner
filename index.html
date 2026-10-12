@@ -1385,71 +1385,6 @@ function initBoss(){
 
 
 let currentLang='pt';
-const LANG={
- 'Planejador de Tasks':['Task Planner','Planificador de Tareas'],
- 'Tasks':['Tasks','Tareas'],
- 'Planejador de Áreas e Fraquezas':['Weakness & Area Planner','Planificador de Áreas y Debilidades'],
- 'Planejador de Captura':['Capture Planner','Planificador de Captura'],
- 'Planejador de Bosses':['Boss Planner','Planificador de Jefes'],
- '⚔️ Pokémon Recomendados':['⚔️ Recommended Pokémon','⚔️ Pokémon Recomendados'],
- '🎮 Personalize o Seu':['🎮 Customize Yours','🎮 Personaliza el Tuyo'],
- 'Configure a Raid, veja recomendações e compare seus Pokémon.':['Configure the Raid, see recommendations and compare your Pokémon.','Configura la incursión, consulta recomendaciones y compara tus Pokémon.'],
- 'Boss':['Boss','Jefe'],'Tipo Raid':['Raid Type','Tipo de Raid'],'Tier':['Tier','Nivel'],
- 'Afixo 1':['Affix 1','Afijo 1'],'Afixo 2':['Affix 2','Afijo 2'],'Afixo 3':['Affix 3','Afijo 3'],
- 'Pokémon':['Pokémon','Pokémon'],'Nível':['Level','Nivel'],'Raridade':['Rarity','Rareza'],
- 'Natureza +':['Nature +','Naturaleza +'],'Natureza −':['Nature −','Naturaleza −'],
- 'Raridade golpe':['Move rarity','Rareza del movimiento'],
- 'Golpe 1':['Move 1','Movimiento 1'],'Golpe 2':['Move 2','Movimiento 2'],'Golpe 3':['Move 3','Movimiento 3'],'Golpe 4':['Move 4','Movimiento 4'],
- '🎒 Itens equipados (até 5)':['🎒 Equipped items (up to 5)','🎒 Objetos equipados (hasta 5)'],
- 'Item 1':['Item 1','Objeto 1'],'Item 2':['Item 2','Objeto 2'],'Item 3':['Item 3','Objeto 3'],'Item 4':['Item 4','Objeto 4'],'Item 5':['Item 5','Objeto 5'],
- 'Nenhum':['None','Ninguno'],'Nenhuma':['None','Ninguna'],'Neutra':['Neutral','Neutra'],
- 'PWR comparativo · não é DPS oficial':['Estimated PWR · not official DPS','PWR estimado · no es DPS oficial'],
- 'Outras áreas':['Other areas','Otras áreas'],'Tipo 1':['Type 1','Tipo 1'],'Tipo 2':['Type 2','Tipo 2'],
- 'Melhor área de captura por tipo':['Best capture area by type','Mejor área de captura por tipo'],
- 'Personalizado 1':['Custom 1','Personalizado 1'],'Personalizado 2':['Custom 2','Personalizado 2'],
- 'Área':['Area','Área'],'Fraquezas':['Weaknesses','Debilidades'],'Captura':['Capture','Captura'],'Bosses':['Bosses','Jefes']
-};
-
-Object.assign(LANG,{"Dados do jogo carregados localmente": ["Game data loaded locally", "Datos del juego cargados localmente"], "Selecione um tipo para ver os Pokémon.": ["Select a type to see Pokémon.", "Selecciona un tipo para ver los Pokémon."], "Quatro golpes ofensivos para enfrentar cada tipo adversário. Raridade dos golpes: Common.": ["Four offensive moves against each opposing type. Move rarity: Common.", "Cuatro movimientos ofensivos contra cada tipo rival. Rareza de movimientos: Common."], "HP estimado do alvo": ["Estimated target HP", "PS estimados del objetivo"], "Estimativa ofensiva: nível 100, Pokémon Common, IV 15, EV 0, natureza neutra. DoT usa HP estimado do alvo; veneno e queimadura renovam duração, sem acumular. Golpes de status excluídos.": ["Offensive estimate: level 100, Common Pokémon, IV 15, EV 0, neutral nature. DoT uses estimated target HP; poison and burn refresh duration without stacking. Status-only moves excluded.", "Estimación ofensiva: nivel 100, Pokémon Common, IV 15, EV 0, naturaleza neutra. El daño continuo usa los PS estimados; veneno y quemadura renuevan duración sin acumularse. Movimientos de estado excluidos."], "HUNT PLANNER · Cálculos locais no navegador · Sem login ou envio de escolhas para servidor.": ["HUNT PLANNER · Local browser calculations · No login or choices sent to a server.", "HUNT PLANNER · Cálculos locales en el navegador · Sin inicio de sesión ni envío de elecciones a un servidor."], "Tipo": ["Type", "Tipo"], "Pokémon": ["Pokémon", "Pokémon"], "Moveset Optimizer": ["Moveset Optimizer", "Optimizador de movimientos"], "Catch Dex": ["Catch Dex", "Dex de captura"], "Selecione um Pokémon": ["Select a Pokémon", "Selecciona un Pokémon"], "Selecione um tipo": ["Select a type", "Selecciona un tipo"], "Sem dados disponíveis": ["No data available", "Sin datos disponibles"], "Nenhum Pokémon encontrado.": ["No Pokémon found.", "No se encontraron Pokémon."], "PWR estimado": ["Estimated PWR", "PWR estimado"], "Dano estimado": ["Estimated damage", "Daño estimado"], "Localizações": ["Locations", "Ubicaciones"], "Localização": ["Location", "Ubicación"], "Nível da área": ["Area level", "Nivel del área"], "Região": ["Region", "Región"], "Área": ["Area", "Área"], "Natureza -": ["Nature -", "Naturaleza -"], "Personalize o Seu": ["Customize Yours", "Personaliza el Tuyo"], "Pokémon Recomendados": ["Recommended Pokémon", "Pokémon recomendados"], "Fundo: ON": ["Background: ON", "Fondo: ON"], "Fundo: OFF": ["Background: OFF", "Fondo: OFF"], "Raridade do golpe": ["Move rarity", "Rareza del movimiento"], "Resultado": ["Result", "Resultado"], "Resultados": ["Results", "Resultados"], "Golpes": ["Moves", "Movimientos"], "Fraquezas": ["Weaknesses", "Debilidades"], "Resistências": ["Resistances", "Resistencias"], "Melhores áreas": ["Best areas", "Mejores áreas"], "Todas as áreas": ["All areas", "Todas las áreas"], "Melhores golpes": ["Best moves", "Mejores movimientos"], "Poder": ["Power", "Potencia"], "Recarga": ["Cooldown", "Recarga"], "Comum": ["Common", "Común"], "Muito fácil": ["Very easy", "Muy fácil"], "Fácil": ["Easy", "Fácil"], "Médio": ["Medium", "Medio"], "Difícil": ["Hard", "Difícil"], "Prêmio": ["Prize", "Premio"]});
-Object.assign(LANG,{"1º LUGAR": ["1st PLACE", "1.er PUESTO"], "2º LUGAR": ["2nd PLACE", "2.º PUESTO"], "3º LUGAR": ["3rd PLACE", "3.er PUESTO"], "Catch médio": ["Avg. catch", "Captura media"], "Catch médio indisponível": ["Avg. catch unavailable", "Captura media no disponible"], "Concentração": ["Concentration", "Concentración"], "Selecione pelo menos um tipo para encontrar áreas de captura.": ["Select at least one type to find capture areas.", "Selecciona al menos un tipo para encontrar zonas de captura."], "Selecione um tipo para encontrar a melhor área.": ["Select a type to find the best area.", "Selecciona un tipo para encontrar la mejor zona."], "Nenhuma área encontrada.": ["No area found.", "No se encontró ninguna zona."], "🎯 Melhores áreas para captura": ["🎯 Best capture areas", "🎯 Mejores zonas de captura"], "☆ Melhor área de captura por tipo ☆": ["☆ Best capture area by type ☆", "☆ Mejor zona de captura por tipo ☆"], "✦ Melhores áreas": ["✦ Best areas", "✦ Mejores zonas"], "Faixa de nível da área": ["Area level range", "Rango de nivel de la zona"], "Calculando...": ["Calculating...", "Calculando..."], "SPC ATK": ["SPC ATK", "SPC ATK"], "SPC DEF": ["SPC DEF", "SPC DEF"], "SPD": ["SPD", "SPD"]});
-Object.assign(LANG,{"1º LUGAR": ["Rank 1", "Rank 1"], "2º LUGAR": ["Rank 2", "Rank 2"], "3º LUGAR": ["Rank 3", "Rank 3"], "Encontre áreas favoráveis aos tipos escolhidos.": ["Find areas favorable to the selected types.", "Encuentra zonas favorables a los tipos elegidos."], "Prioriza áreas de nível maior quando as fraquezas empatam.": ["Prioritizes higher-level areas when weaknesses tie.", "Prioriza zonas de nivel superior cuando las debilidades empatan."], "Encontre áreas com Pokémon dos tipos escolhidos e compare seus valores de captura.": ["Find areas with Pokémon of the selected types and compare their catch values.", "Encuentra zonas con Pokémon de los tipos elegidos y compara sus valores de captura."], "Selecione pelo menos um tipo para encontrar áreas de captura.": ["Select at least one type to find capture areas.", "Selecciona al menos un tipo para encontrar zonas de captura."], "Selecione um tipo para encontrar a melhor área.": ["Select a type to find the best area.", "Selecciona un tipo para encontrar la mejor zona."], "Selecione um tipo para listar os Pokémon do menor para o maior valor de captura.": ["Select a type to list Pokémon from lowest to highest catch value.", "Selecciona un tipo para ordenar los Pokémon de menor a mayor valor de captura."], "Quatro golpes ofensivos para enfrentar cada tipo adversário. Raridade dos golpes: Common.": ["Four offensive moves against each opposing type. Move rarity: Common.", "Cuatro movimientos ofensivos contra cada tipo rival. Rareza de los movimientos: Common."], "Nenhum Pokémon encontrado para este tipo.": ["No Pokémon found for this type.", "No se encontraron Pokémon de este tipo."], "Nenhum golpe ofensivo elegível.": ["No eligible offensive moves.", "No hay movimientos ofensivos elegibles."], "Pesquisar Pokémon": ["Search Pokémon", "Buscar Pokémon"], "Onde encontrar": ["Where to find", "Dónde encontrar"], "Catch médio": ["Avg. catch", "Captura media"], "Concentração": ["Concentration", "Concentración"], "golpes": ["moves", "movimientos"], "golpe": ["move", "movimiento"], "Floresta": ["Forest", "Bosque"], "Orla da Mata": ["Forest Edge", "Borde del Bosque"], "Encosta de Cinzas": ["Ashen Slope", "Ladera de Cenizas"], "Volcão": ["Volcano", "Volcán"], "Vulcão": ["Volcano", "Volcán"], "Torre Assombrada": ["Haunted Tower", "Torre Embrujada"], "Normal": ["Normal", "Normal"], "Fogo": ["Fire", "Fuego"], "Água": ["Water", "Agua"], "Elétrico": ["Electric", "Eléctrico"], "Planta": ["Grass", "Planta"], "Gelo": ["Ice", "Hielo"], "Lutador": ["Fighting", "Lucha"], "Veneno": ["Poison", "Veneno"], "Terra": ["Ground", "Tierra"], "Voador": ["Flying", "Volador"], "Psíquico": ["Psychic", "Psíquico"], "Inseto": ["Bug", "Bicho"], "Pedra": ["Rock", "Roca"], "Fantasma": ["Ghost", "Fantasma"], "Dragão": ["Dragon", "Dragón"], "Sombrio": ["Dark", "Siniestro"], "Metal": ["Steel", "Acero"], "Fada": ["Fairy", "Hada"]});
-const reverseLang={};for(const [pt,arr] of Object.entries(LANG)){reverseLang[pt]=pt;arr.forEach(s=>{if(!(s in reverseLang))reverseLang[s]=pt})}
-function translateText(s){
- const pt=reverseLang[s]||s;const val=LANG[pt];
- if(val)return currentLang==='pt'?pt:val[currentLang==='es'?1:0];
- if(currentLang==='pt')return s;
- const i=currentLang==='es'?1:0;
- const fragments=['Catch médio indisponível','Catch médio','Concentração','1º LUGAR','2º LUGAR','3º LUGAR'];
- let out=s;for(const k of fragments){if(LANG[k])out=out.split(k).join(LANG[k][i]);}
- return out;
-}
-function translateTree(root=document.body){
- const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;
- while(n=walker.nextNode()){
-  if(['SCRIPT','STYLE','OPTION'].includes(n.parentElement?.tagName))continue;
-  const v=n.nodeValue,trim=v.trim();if(!trim)continue;
-  const pt=n.__huntPtText||(reverseLang[trim]||trim);
-  if(!n.__huntPtText)n.__huntPtText=pt;
-  const translated=translateText(pt);
-  if(trim!==translated)n.nodeValue=v.replace(trim,translated);
- }
- const els=root.querySelectorAll?root.querySelectorAll('[title],[placeholder],[aria-label]'):[];
- for(const el of els)for(const attr of ['title','placeholder','aria-label']){
-  if(!el.hasAttribute(attr))continue;
-  const key='huntPt'+attr;const original=el.dataset[key]||el.getAttribute(attr);
-  if(!el.dataset[key])el.dataset[key]=reverseLang[original]||original;
-  el.setAttribute(attr,translateText(el.dataset[key]));
- }
- document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.dataset.lang===currentLang));
- document.documentElement.lang=currentLang==='pt'?'pt-BR':currentLang==='en'?'en-US':currentLang==='zh'?'zh-CN':'es';
-}
-function setLanguage(lang){currentLang=lang;translateTree();}
-document.querySelectorAll('.lang-btn').forEach(btn=>btn.addEventListener('click',()=>setLanguage(btn.dataset.lang)));
-const langObserver=new MutationObserver(records=>{
- langObserver.disconnect();for(const rec of records){if(rec.type==='characterData'&&rec.target?.nodeType===3){const n=rec.target;const raw=n.nodeValue?.trim();if(raw){const translated=translateText(raw);if(translated!==raw)n.nodeValue=n.nodeValue.replace(raw,translated)}}for(const n of rec.addedNodes){if(n.nodeType===1)translateTree(n);else if(n.nodeType===3){const txt=n.nodeValue?.trim();if(txt){const t=translateText(txt);if(t!==txt)n.nodeValue=n.nodeValue.replace(txt,t)}}}}
- langObserver.observe(document.body,{subtree:true,childList:true,characterData:true});
-});
-langObserver.observe(document.body,{subtree:true,childList:true,characterData:true});
 </script><script id="hunt-theme-script-v114">
 (function(){
  const toggle=document.getElementById('bgToggle');
@@ -1464,44 +1399,6 @@ langObserver.observe(document.body,{subtree:true,childList:true,characterData:tr
  const sword='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4l6-2-2 6-9 9-4-4 9-9zM5 13l-3 3m2 2l3-3m-1 4l-2 2"/></svg>';
  const shield='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L4 5v7c0 5 3.5 8 8 10 4.5-2 8-5 8-10V5l-8-3zM8 12l3 3 5-6"/></svg>';
  document.querySelectorAll('.tabs button').forEach(b=>{const label=b.textContent.trim().replace(/^[^\p{L}]+/u,'');b.innerHTML=(b.dataset.tab==='bosses'?sword:shield)+' '+label});
-})();
-</script><script id="hunt-v138-translation">
-(function(){
-const typeLabels={Normal:['Normal','Normal'],Fogo:['Fire','Fuego'],'Água':['Water','Agua'],'Elétrico':['Electric','Eléctrico'],Planta:['Grass','Planta'],Gelo:['Ice','Hielo'],Lutador:['Fighting','Lucha'],Veneno:['Poison','Veneno'],Terra:['Ground','Tierra'],Voador:['Flying','Volador'],'Psíquico':['Psychic','Psíquico'],Inseto:['Bug','Bicho'],Pedra:['Rock','Roca'],Fantasma:['Ghost','Fantasma'],Dragão:['Dragon','Dragón'],Sombrio:['Dark','Siniestro'],Metal:['Steel','Acero'],Fada:['Fairy','Hada']};
-const extras={
-'Errante':['Wandering','Errante'],'Desperto':['Awakened','Despierto'],'Alfa':['Alpha','Alfa'],'Ancião':['Elder','Anciano'],'Colosso':['Colossus','Coloso'],'Titã':['Titan','Titán'],
-'Fúria':['Fury','Furia'],'Couraça':['Armor','Coraza'],'Ímpeto':['Momentum','Ímpetu'],'Regeneração':['Regeneration','Regeneración'],'Represália':['Retaliation','Represalia'],'Frenesi':['Frenzy','Frenesí'],'Presa':['Prey','Presa'],
-'Common':['Common','Común'],'Uncommon':['Uncommon','Poco común'],'Rare':['Rare','Raro'],'Epic':['Epic','Épico'],'Prismatic':['Prismatic','Prismático'],'Mythic':['Mythic','Mítico'],'Astral':['Astral','Astral'],'Divine':['Divine','Divino'],'Shiny':['Shiny','Variocolor'],'Fundador':['Founder','Fundador'],'Gênesis':['Genesis','Génesis'],
-'Neutra':['Neutral','Neutra'],'Nenhum':['None','Ninguno'],'Nenhuma':['None','Ninguna'],
-'Nível máximo da área':['Maximum area level','Nivel máximo del área'],'NÍVEL MÁXIMO DA ÁREA':['MAXIMUM AREA LEVEL','NIVEL MÁXIMO DEL ÁREA'],
-'Fraqueza 1':['Weakness 1','Debilidad 1'],'Fraqueza 2':['Weakness 2','Debilidad 2'],'Fraqueza 3':['Weakness 3','Debilidad 3'],
-'Melhores áreas':['Best areas','Mejores áreas'],'PWR estimado':['Estimated PWR','PWR estimado'],'ATK ESP':['SP. ATK','AT. ESP'],'DEF ESP':['SP. DEF','DEF. ESP'],'VEL':['SPD','VEL'],
-'Dados do jogo carregados localmente':['Game data loaded locally','Datos del juego cargados localmente'],
-'Encontre áreas favoráveis aos tipos escolhidos.':['Find areas favorable to the selected types.','Encuentra zonas favorables a los tipos elegidos.'],
-'Encontre áreas com Pokémon dos tipos escolhidos e compare seus valores de captura.':['Find areas with Pokémon of the selected types and compare their catch values.','Encuentra zonas con Pokémon de los tipos elegidos y compara sus valores de captura.'],
-'Prioriza áreas de nível maior quando as fraquezas empatam.':['Prioritizes higher-level areas when weaknesses tie.','Prioriza zonas de nivel superior cuando las debilidades empatan.'],
-'PWR comparativo · não é DPS oficial':['Comparative PWR · not official DPS','PWR comparativo · no es DPS oficial'],
-'Planejador de Tasks':['Task Planner','Planificador de Tareas'], 'Planejador de Captura':['Capture Planner','Planificador de Captura'], 'Planejador de Bosses':['Boss Planner','Planificador de Jefes'],
-'Boss':['Boss','Jefe'],'Tier':['Tier','Nivel de jefe'],'Afixo 1':['Affix 1','Afijo 1'],'Afixo 2':['Affix 2','Afijo 2'],'Afixo 3':['Affix 3','Afijo 3'],
-'Pokémon Recomendados':['Recommended Pokémon','Pokémon recomendados'],'Personalize o Seu':['Customize Yours','Personaliza el tuyo'],
-'Configure a Raid, veja recomendações e compare seus Pokémon.':['Set up the Raid, see recommendations, and compare your Pokémon.','Configura la incursión, consulta recomendaciones y compara tus Pokémon.']
-};
-const dict={...typeLabels,...extras};
-const reverse={};Object.entries(dict).forEach(([pt,arr])=>{reverse[pt.toLowerCase()]=pt;arr.forEach(v=>{reverse[v.toLowerCase()]??=pt})});
-const norm=s=>String(s||'').trim();
-function labelFor(raw,lang){let str=norm(raw);if(!str)return raw;const tier=str.match(/^(.+?)\s*·\s*(?:Nv\.|Lv\.|Nivel|Level)\s*(\d+)[–-](\d+)$/i);if(tier){const head=labelFor(tier[1],lang);return `${head} · ${lang==='en'?'Lv.':lang==='es'?'Nv.':'Nv.'} ${tier[2]}–${tier[3]}`;}
- const base=reverse[str.toLowerCase()]||str;const vals=dict[base];return vals?(lang==='pt'?base:vals[lang==='es'?1:0]):str;
-}
-function translateOptions(){const lang=window.currentLang||'pt';document.querySelectorAll('select option').forEach(o=>{const raw=o.dataset.huntOriginalOption??o.textContent.trim();if(!o.dataset.huntOriginalOption)o.dataset.huntOriginalOption=raw;let value=labelFor(raw,lang);if(o.parentElement?.id==='bossTier'){const range=window.BD?.tierLevels?.[o.value];if(range)value=labelFor((raw.split(' · ')[0]||raw)+` · Nv. ${range[0]}–${range[1]}`,lang)}o.textContent=value;});
- document.querySelectorAll('#bossTypeBadges .boss-type-badge,.species-type-badges .type-pill').forEach(el=>{if(!el.dataset.huntOriginalType)el.dataset.huntOriginalType=el.textContent.trim();const target=[...el.childNodes].find(n=>n.nodeType===3);if(target)target.nodeValue=labelFor(el.dataset.huntOriginalType,lang);else if(!el.children.length)el.textContent=labelFor(el.dataset.huntOriginalType,lang)});
-}
-function updateLabels(){const lang=window.currentLang||'pt';const el=document.getElementById('bgToggle');if(el)el.textContent=(lang==='en'?'🌙 Background: ':lang==='es'?'🌙 Fondo: ':'🌙 Fundo: ')+(document.body.classList.contains('castle-bg')?'ON':'OFF');translateOptions()}
-let queued=false;function queue(){if(queued)return;queued=true;queueMicrotask(()=>{queued=false;updateLabels()})}
-const old=window.setLanguage;
-window.setLanguage=function(lang){if(typeof old==='function')old(lang);window.currentLang=lang;queue()};
-document.querySelectorAll('.lang-btn').forEach(b=>b.addEventListener('click',()=>{window.currentLang=b.dataset.lang;queue();if(typeof render==='function')render();if(typeof renderCapture==='function')renderCapture();if(typeof renderBoss==='function')renderBoss();}));
-new MutationObserver(records=>{if(records.some(r=>r.type==='childList'&&[...r.addedNodes].some(n=>n.nodeType===1&&(n.matches?.('option,select,.boss-type-badge')||n.querySelector?.('option,.boss-type-badge')))))queue()}).observe(document.body,{childList:true,subtree:true});
-window.currentLang='pt';queue();
 })();
 </script><script id="hunt-pwa-register">if('serviceWorker' in navigator && (location.protocol==='https:' || location.hostname==='localhost')){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(err=>console.warn('PWA:',err)));}</script><script id="hunt-v143-dual-slider">
 (()=>{function setup(){const wrap=document.querySelector('#fraquezas .dual-range'),low=document.getElementById('minAreaLevel'),high=document.getElementById('maxAreaLevel');if(!wrap||!low||!high||wrap.querySelector('.hunt-range-track'))return;
@@ -1609,38 +1506,4 @@ function enhance(select){if(!select||select.dataset.huntSearchEnhanced)return;se
  new MutationObserver(()=>scan()).observe(document.body,{childList:true,subtree:true});
 })();
 </script>
-<script id="hunt-i18n-v1522">(()=>{'use strict';
-const custom={"Selecione pelo menos um tipo para encontrar áreas de captura.": ["Select at least one type to find capture areas.", "Selecciona al menos un tipo para encontrar zonas de captura.", "请至少选择一种属性以查找捕捉区域。"], "Selecione um tipo para encontrar a melhor área.": ["Select a type to find the best area.", "Selecciona un tipo para encontrar la mejor zona.", "请选择一种属性以查找最佳区域。"], "Nenhum resultado": ["No results", "Sin resultados", "没有结果"], "Digite ou escolha…": ["Type or choose…", "Escribe o elige…", "输入或选择…"], "Digite para procurar": ["Type to search", "Escribe para buscar", "输入以搜索"], "Fraqueza 1": ["Weakness 1", "Debilidad 1", "弱点 1"], "Fraqueza 2": ["Weakness 2", "Debilidad 2", "弱点 2"], "Fraqueza 3": ["Weakness 3", "Debilidad 3", "弱点 3"], "FRAQUEZA 1": ["WEAKNESS 1", "DEBILIDAD 1", "弱点 1"], "FRAQUEZA 2": ["WEAKNESS 2", "DEBILIDAD 2", "弱点 2"], "FRAQUEZA 3": ["WEAKNESS 3", "DEBILIDAD 3", "弱点 3"], "Onde encontrar": ["Where to find", "Dónde encontrar", "在哪里找到"], "Área": ["Area", "Área", "区域"], "Áreas": ["Areas", "Áreas", "区域"], "Nv.": ["Lv.", "Nv.", "等级"], "Nenhum": ["None", "Ninguno", "无"], "Nenhuma": ["None", "Ninguna", "无"], "Booster de ": [" Booster", "Potenciador de ", "属性增强器："], "Couraça": ["Armor", "Coraza", "护甲"], "Frenesi": ["Frenzy", "Frenesí", "狂热"], "Fúria": ["Fury", "Furia", "愤怒"], "Ímpeto": ["Momentum", "Ímpetu", "冲势"], "Presa": ["Prey", "Presa", "猎物"], "Regeneração": ["Regeneration", "Regeneración", "再生"], "Represália": ["Retaliation", "Represalia", "反击"], "Encontre áreas favoráveis aos tipos escolhidos.": ["Find areas favorable to the selected types.", "Encuentra zonas favorables a los tipos elegidos.", "查找适合所选属性的区域。"], "Encontre áreas com Pokémon dos tipos escolhidos e compare seus valores de captura.": ["Find areas with Pokémon of the selected types and compare their catch values.", "Encuentra zonas con Pokémon de los tipos elegidos y compara sus valores de captura.", "查找包含所选属性宝可梦的区域并比较捕捉数值。"], "Selecione um tipo para listar os Pokémon do menor para o maior valor de captura.": ["Select a type to list Pokémon from lowest to highest catch value.", "Selecciona un tipo para ordenar los Pokémon de menor a mayor valor de captura.", "选择属性，按捕捉数值从低到高列出宝可梦。"], "Selecione um tipo para ver os Pokémon.": ["Select a type to see Pokémon.", "Selecciona un tipo para ver los Pokémon.", "选择属性以查看宝可梦。"], "Pesquisar Pokémon": ["Search Pokémon", "Buscar Pokémon", "搜索宝可梦"], "Planejador de Tasks": ["Task Planner", "Planificador de Tareas", "任务规划器"], "Planejador de Captura": ["Capture Planner", "Planificador de Captura", "捕捉规划器"], "Outras áreas": ["Other areas", "Otras áreas", "其他区域"], "Melhores áreas": ["Best areas", "Mejores áreas", "最佳区域"], "Catch médio": ["Avg. catch", "Captura media", "平均捕捉值"], "Concentração": ["Concentration", "Concentración", "集中度"], "Prioriza áreas de nível maior quando as fraquezas empatam.": ["Prioritizes higher-level areas when weaknesses tie.", "Prioriza zonas de nivel superior cuando las debilidades empatan.", "弱点数量相同时优先显示等级更高的区域。"], "Faixa de nível da área": ["Area level range", "Rango de nivel de la zona", "区域等级范围"], "1º LUGAR": ["Rank 1", "Rank 1", "Rank 1"], "2º LUGAR": ["Rank 2", "Rank 2", "Rank 2"], "3º LUGAR": ["Rank 3", "Rank 3", "Rank 3"], "Fogo": ["Fire", "Fuego", "火"], "Água": ["Water", "Agua", "水"], "Elétrico": ["Electric", "Eléctrico", "电"], "Planta": ["Grass", "Planta", "草"], "Gelo": ["Ice", "Hielo", "冰"], "Lutador": ["Fighting", "Lucha", "格斗"], "Veneno": ["Poison", "Veneno", "毒"], "Terra": ["Ground", "Tierra", "地面"], "Voador": ["Flying", "Volador", "飞行"], "Psíquico": ["Psychic", "Psíquico", "超能力"], "Inseto": ["Bug", "Bicho", "虫"], "Pedra": ["Rock", "Roca", "岩石"], "Fantasma": ["Ghost", "Fantasma", "幽灵"], "Dragão": ["Dragon", "Dragón", "龙"], "Sombrio": ["Dark", "Siniestro", "恶"], "Metal": ["Steel", "Acero", "钢"], "Fada": ["Fairy", "Hada", "妖精"], "Normal": ["Normal", "Normal", "一般"], "Fundo: ON": ["Background: ON", "Fondo: ON", "背景：开启"], "Fundo: OFF": ["Background: OFF", "Fondo: OFF", "背景：关闭"], "Booster de Água": ["Water Booster", "Potenciador de Agua", "水属性增强器"], "Booster de Fogo": ["Fire Booster", "Potenciador de Fuego", "火属性增强器"], "Booster de Elétrico": ["Electric Booster", "Potenciador de Eléctrico", "电属性增强器"], "Booster de Planta": ["Grass Booster", "Potenciador de Planta", "草属性增强器"], "Booster de Gelo": ["Ice Booster", "Potenciador de Hielo", "冰属性增强器"], "Booster de Lutador": ["Fighting Booster", "Potenciador de Lucha", "格斗属性增强器"], "Booster de Veneno": ["Poison Booster", "Potenciador de Veneno", "毒属性增强器"], "Booster de Terra": ["Ground Booster", "Potenciador de Tierra", "地面属性增强器"], "Booster de Voador": ["Flying Booster", "Potenciador de Volador", "飞行属性增强器"], "Booster de Psíquico": ["Psychic Booster", "Potenciador de Psíquico", "超能力属性增强器"], "Booster de Inseto": ["Bug Booster", "Potenciador de Bicho", "虫属性增强器"], "Booster de Pedra": ["Rock Booster", "Potenciador de Roca", "岩石属性增强器"], "Booster de Fantasma": ["Ghost Booster", "Potenciador de Fantasma", "幽灵属性增强器"], "Booster de Dragão": ["Dragon Booster", "Potenciador de Dragón", "龙属性增强器"], "Booster de Sombrio": ["Dark Booster", "Potenciador de Siniestro", "恶属性增强器"], "Booster de Metal": ["Steel Booster", "Potenciador de Acero", "钢属性增强器"], "Booster de Fada": ["Fairy Booster", "Potenciador de Hada", "妖精属性增强器"], "Booster de Normal": ["Normal Booster", "Potenciador de Normal", "一般属性增强器"]};
-const languages=['pt','en','es','zh'];
-const originals=new WeakMap();
-const reverse=new Map();
-for(const [pt,values] of Object.entries(custom)){reverse.set(pt,pt);values.forEach(v=>{if(!reverse.has(v))reverse.set(v,pt)})}
-const code=()=>languages.includes(window.currentLang)?window.currentLang:'pt';
-function convert(raw){const l=code();if(l==='pt')return raw;const index=languages.indexOf(l)-1;const trimmed=raw.trim();let key=reverse.get(trimmed)||trimmed;
- if(custom[key])return raw.replace(trimmed,custom[key][index]);
- // Translate full hover locations and other dynamically assembled strings without touching Pokémon names.
- let out=raw;
- const keys=Object.keys(custom).filter(k=>k!=='Normal'&&k!=='Área'&&k!=='Nv.').sort((a,b)=>b.length-a.length);
- for(const k of keys){const rx=new RegExp('(^|[^\\p{L}])('+k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')(?=$|[^\\p{L}])','gu');out=out.replace(rx,(_m,lead)=>lead+custom[k][index])}
- out=out.replace(/(^|[·\s])Área (?=\d)/g,(_,lead)=>lead+custom['Área'][index]+' ').replace(/(^|[·\s])Nv\. (?=\d)/g,(_,lead)=>lead+custom['Nv.'][index]+' ');
- return out;
-}
-window.huntI18n=(pt)=>{const l=code();return l==='pt'?pt:(custom[pt]?.[languages.indexOf(l)-1]||pt)};
-function apply(){const lang=code();document.documentElement.lang={pt:'pt-BR',en:'en-US',es:'es',zh:'zh-CN'}[lang];
- document.querySelectorAll('.lang-btn').forEach(b=>{b.classList.toggle('active',b.dataset.lang===lang);b.setAttribute('aria-pressed',String(b.dataset.lang===lang))});
- const walk=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;
- while(n=walk.nextNode()){if(n.parentElement?.closest('script,style,option'))continue;const value=n.nodeValue;if(!value.trim())continue;
- let orig=originals.get(n);if(orig===undefined){orig=reverse.get(value.trim())||value;originals.set(n,orig)}
- const target=convert(orig);if(value!==target){if(value!==orig&&value!==convert(orig)){orig=reverse.get(value.trim())||value;originals.set(n,orig)}const translated=convert(orig);if(n.nodeValue!==translated)n.nodeValue=translated}
- }
- document.querySelectorAll('select option').forEach(o=>{let raw=o.dataset.huntV1522Raw;if(!raw){raw=o.dataset.huntOriginalOption||o.textContent.trim();o.dataset.huntV1522Raw=raw}const translated=convert(raw);if(o.textContent!==translated)o.textContent=translated});
- document.querySelectorAll('input[placeholder],input[aria-label],button[aria-label]').forEach(el=>{for(const attr of ['placeholder','aria-label']){if(!el.hasAttribute(attr))continue;const data='huntV1522'+attr.replace('-','');let raw=el.dataset[data];if(!raw){raw=el.getAttribute(attr);el.dataset[data]=raw}const translated=convert(raw);if(el.getAttribute(attr)!==translated)el.setAttribute(attr,translated)}});
- const bg=document.getElementById('bgToggle');if(bg){const key=document.body.classList.contains('castle-bg')?'Fundo: ON':'Fundo: OFF';const val='🌙 '+window.huntI18n(key);if(bg.textContent!==val)bg.textContent=val}
-}
-let busy=false,scheduled=false;
-function run(){if(busy)return;busy=true;try{apply()}finally{busy=false}}
-function schedule(){if(scheduled)return;scheduled=true;queueMicrotask(()=>{scheduled=false;run()})}
-new MutationObserver(records=>{if(busy)return;if(records.some(r=>r.type==='childList'||r.type==='characterData'))schedule()}).observe(document.body,{subtree:true,childList:true,characterData:true});
-document.querySelectorAll('.lang-btn').forEach(b=>b.addEventListener('click',()=>{window.currentLang=b.dataset.lang;setTimeout(run,0)},false));
-run();
-})();</script></body></html>
+<script src="./i18n.js"></script></body></html>

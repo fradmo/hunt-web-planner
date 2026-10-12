@@ -9,13 +9,28 @@ for(const [key,values] of Object.entries(DICT)){
  reverse.set(key,key);
  for(const value of values)if(value&&!reverse.has(value))reverse.set(value,key);
 }
+
+// Dynamic item counters and labels are translated as full templates, not word fragments.
+const ITEM_LABELS={
+ pt:{selected:(n,slots)=>`${n} de 5 itens selecionados · ${slots} slot(s) base por raridade (sem bônus de laço/selos).`,over:(n,rarity,slots)=>`⚠ ${n} item(ns) equipado(s). Raridade ${rarity}: ${slots} slot(s) base; bônus de laço/selos não configurados.`},
+ en:{selected:(n,slots)=>`${n} of 5 items selected · ${slots} base slot(s) by rarity (without bond/seal bonuses).`,over:(n,rarity,slots)=>`⚠ ${n} equipped item(s). Rarity ${rarity}: ${slots} base slot(s); bond/seal bonuses not configured.`},
+ es:{selected:(n,slots)=>`${n} de 5 objetos seleccionados · ${slots} espacio(s) base según rareza (sin bonos de vínculo/sellos).`,over:(n,rarity,slots)=>`⚠ ${n} objeto(s) equipado(s). Rareza ${rarity}: ${slots} espacio(s) base; bonos de vínculo/sellos no configurados.`},
+ zh:{selected:(n,slots)=>`已选择 ${n}/5 件道具 · 根据稀有度有 ${slots} 个基础槽位（不含羁绊/印记加成）。`,over:(n,rarity,slots)=>`⚠ 已装备 ${n} 件道具。稀有度 ${rarity}：${slots} 个基础槽位；未配置羁绊/印记加成。`}
+};
+window.huntItemNote=(count,slots,rarity)=>count>slots?ITEM_LABELS[currentLang].over(count,rarity,slots):ITEM_LABELS[currentLang].selected(count,slots);
+// Match full labels even if accents/cedillas differ in data sources.
+const foldLabel=value=>String(value).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('pt-BR').trim();
+const normalizedKeys=new Map();
+for(const [base,values] of Object.entries(DICT)){
+ for(const candidate of [base,...values])if(candidate&&!normalizedKeys.has(foldLabel(candidate)))normalizedKeys.set(foldLabel(candidate),base);
+}
 const originals=new WeakMap();
 const attrs=new WeakMap();
 const idx=()=>Math.max(0,LANGS.indexOf(currentLang)-1);
 function translate(raw){
  if(currentLang==='pt'){const base=reverse.get(String(raw).trim());return base?String(raw).replace(String(raw).trim(),base):raw;}
  const trimmed=String(raw).trim();if(!trimmed)return raw;
- const key=reverse.get(trimmed)||trimmed;
+ const key=reverse.get(trimmed)||normalizedKeys.get(foldLabel(trimmed))||trimmed;
  const direct=DICT[key]?.[idx()];if(direct)return String(raw).replace(trimmed,direct);
  let value=String(raw);
  value=value.replace(/DPS comparativo\s*[≈~]?/gi,()=>DICT['DPS comparativo']?.[idx()]||'DPS comparativo');
@@ -94,7 +109,7 @@ function apply(){
 }
 let busy=false,queued=false;
 function run(){if(busy)return;busy=true;try{apply()}finally{busy=false}}
-function schedule(){if(queued)return;queued=true;queueMicrotask(()=>{queued=false;run()})}
+function schedule(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;run()})}
 window.huntI18n=(pt)=>translate(pt);
 window.setLanguage=function(lang){
  if(!LANGS.includes(lang))return;

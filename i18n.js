@@ -70,7 +70,7 @@ function apply(){
   es:{fraquezas:'Tareas',captura:'Captura',bosses:'Jefes',catchdex:'Dex de captura',movesets:'Movimientos'},
   zh:{fraquezas:'任务',captura:'捕捉',bosses:'首领',catchdex:'捕捉图鉴',movesets:'招式组合'}
  };
- const navIcons={fraquezas:'⚔',captura:'◉',bosses:'♜',catchdex:'◈',movesets:'⚡'};
+ const navIcons={fraquezas:'⚔',captura:'◉',bosses:'♜',catchdex:'◈',movesets:'</>'};
  for(const button of document.querySelectorAll('nav.tabs button[data-tab]')){
   const tab=button.dataset.tab;
   const text=navNames[currentLang]?.[tab]||navNames.pt[tab];
@@ -83,7 +83,7 @@ function apply(){
  }
  const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;
  while((n=walker.nextNode())){
-  if(n.parentElement?.closest('script,style,option,nav.tabs button[data-tab]'))continue;
+  if(n.parentElement?.closest('script,style,option,nav.tabs button[data-tab],header .brand'))continue;
   const value=n.nodeValue;if(!value.trim())continue;
   const orig=originalFor(n,value),target=translate(orig);
   if(target!==value)n.nodeValue=target;

@@ -70,7 +70,7 @@ function apply(){
   es:{fraquezas:'Tareas',captura:'Captura',bosses:'Jefes',catchdex:'Dex de captura',movesets:'Movimientos'},
   zh:{fraquezas:'任务',captura:'捕捉',bosses:'首领',catchdex:'捕捉图鉴',movesets:'招式组合'}
  };
- const navIcons={fraquezas:'⚔',captura:'◉',bosses:'♜',catchdex:'◈',movesets:'</>'};
+ const navIcons={fraquezas:'⚔',captura:'◉',bosses:'♜',catchdex:'◈',movesets:'🗲'};
  for(const button of document.querySelectorAll('nav.tabs button[data-tab]')){
   const tab=button.dataset.tab;
   const text=navNames[currentLang]?.[tab]||navNames.pt[tab];
@@ -107,9 +107,9 @@ function apply(){
   const text='🌙 '+label+': '+state;if(bg.textContent!==text)bg.textContent=text;
  }
 }
-let busy=false,queued=false;
+let busy=false,queued=false,translateTimer=null;
 function run(){if(busy)return;busy=true;try{apply()}finally{busy=false}}
-function schedule(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;run()})}
+function schedule(){if(queued)return;queued=true;clearTimeout(translateTimer);translateTimer=setTimeout(()=>{queued=false;run()},160)}
 window.huntI18n=(pt)=>translate(pt);
 window.setLanguage=function(lang){
  if(!LANGS.includes(lang))return;

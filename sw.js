@@ -1,4 +1,4 @@
-const CACHE='hunt-planner-v1_5_34';
+const CACHE='hunt-planner-v1_5_35';
 const FILES=['./','./index.html','./i18n.js','./favicon.png','./manifest.webmanifest','./assets/pokemon-dex.json'];
 self.addEventListener('install',event=>{event.waitUntil((async()=>{const cache=await caches.open(CACHE);for(let i=0;i<FILES.length;i+=30){await cache.addAll(FILES.slice(i,i+30));}await self.skipWaiting();})());});
 self.addEventListener('activate',event=>{event.waitUntil((async()=>{const keys=await caches.keys();await Promise.all(keys.filter(k=>k.startsWith('hunt-planner-')&&k!==CACHE).map(k=>caches.delete(k)));await self.clients.claim();})());});

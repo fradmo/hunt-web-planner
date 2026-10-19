@@ -169,7 +169,7 @@ body.castle-bg .boss-sprite-frame{border-radius:12px}
 </style><style id="hunt-v118-layout">
 /* Destaque percentual na quest */
 :is(#fraquezas,#tasks-teste) .quest-line .quest{font-size:16px!important;font-weight:900!important;color:#ffe090!important;line-height:1.5;padding:8px 7px!important}
-:is(#fraquezas,#tasks-teste) .quest-line .quest .type-icon{width:21px;height:21px}
+:is(#fraquezas,#tasks-teste) .quest-line .quest .type-icon{width:17px;height:17px}
 /* Captura: seletores simétricos e centralizados */
 #captura .capture-filters{display:flex!important;align-items:end;justify-content:center;gap:14px;flex-wrap:wrap}
 #captura .capture-filters label{width:min(100%,255px);flex:0 1 255px}
@@ -1578,16 +1578,16 @@ function enhance(select){if(!select||select.dataset.huntSearchEnhanced)return;se
 :is(#fraquezas,#tasks-teste) .filters>.hunt-type-chooser{flex:1 1 100%;width:100%;min-width:0}
 .hunt-type-chooser .hunt-type-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;color:#9cdbff;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.04em}
 .hunt-type-chooser .hunt-type-count{color:#ffd46a;font-size:13px}
-.hunt-type-grid{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:8px}
-.hunt-type-choice{display:flex;align-items:center;gap:7px;min-width:0;padding:10px 8px;border:1px solid #405267;border-radius:10px;background:#303c4b;color:#e9f1fc;cursor:pointer;font-size:12px;font-weight:700;user-select:none;transition:background .12s,border-color .12s}
+.hunt-type-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+.hunt-type-choice{display:flex;align-items:center;gap:5px;min-width:0;padding:7px 7px;border:1px solid #405267;border-radius:10px;background:#303c4b;color:#e9f1fc;cursor:pointer;font-size:11px;font-weight:600;user-select:none;transition:background .12s,border-color .12s}
 .hunt-type-choice:has(input:checked){background:#244c63;border-color:#6acaf5;box-shadow:inset 0 0 0 1px #6acaf555}
 .hunt-type-choice:has(input:disabled){opacity:.45;cursor:not-allowed}
-.hunt-type-choice input{margin:0;accent-color:#6acaf5;flex:0 0 auto;width:15px;height:15px}
-.hunt-type-choice img{width:21px;height:21px;object-fit:contain;flex:0 0 auto}
-.hunt-type-choice span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hunt-type-choice input{margin:0;accent-color:#6acaf5;flex:0 0 auto;width:13px;height:13px}
+.hunt-type-choice img{width:17px;height:17px;object-fit:contain;flex:0 0 auto}
+.hunt-type-choice span{min-width:0;overflow:visible;white-space:normal;overflow-wrap:anywhere;line-height:1.2}
 :is(#fraquezas,#tasks-teste) .filters>.hunt-hidden-type-select{display:none!important}
 :is(#fraquezas,#tasks-teste) .filters>.weakness-level-filter{flex:1 1 100%!important;width:100%!important;min-width:0!important;max-width:none!important;border-left:0!important;border-top:1px solid rgba(153,181,213,.23)!important;padding:10px 2px 2px!important}
-@media(max-width:1100px){.hunt-type-grid{grid-template-columns:repeat(6,minmax(0,1fr))}}
+@media(max-width:1100px){.hunt-type-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media(max-width:720px){.hunt-type-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:430px){.hunt-type-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>

@@ -89,12 +89,12 @@ function originalFor(node,value){
 function apply(){
  document.documentElement.lang={pt:'pt-BR',en:'en-US',es:'es',zh:'zh-CN'}[currentLang];
  const navNames={
-  pt:{fraquezas:'Tasks',captura:'Captura',bosses:'Bosses',catchdex:'Catch Dex',movesets:'Movesets'},
-  en:{fraquezas:'Tasks',captura:'Capture',bosses:'Bosses',catchdex:'Catch Dex',movesets:'Movesets'},
-  es:{fraquezas:'Tareas',captura:'Captura',bosses:'Jefes',catchdex:'Dex de captura',movesets:'Movimientos'},
-  zh:{fraquezas:'任务',captura:'捕捉',bosses:'首领',catchdex:'捕捉图鉴',movesets:'招式组合'}
+  pt:{fraquezas:'Tasks',captura:'Captura',bosses:'Bosses',catchdex:'Catch Dex',movesets:'Movesets','stats-teste':'Stats'},
+  en:{fraquezas:'Tasks',captura:'Capture',bosses:'Bosses',catchdex:'Catch Dex',movesets:'Movesets','stats-teste':'Stats'},
+  es:{fraquezas:'Tareas',captura:'Captura',bosses:'Jefes',catchdex:'Dex de captura',movesets:'Movimientos','stats-teste':'Estadísticas'},
+  zh:{fraquezas:'任务',captura:'捕捉',bosses:'首领',catchdex:'捕捉图鉴',movesets:'招式组合','stats-teste':'属性'}
  };
- const navIcons={fraquezas:'⚔',captura:'◉',bosses:'♜',catchdex:'◈',movesets:'🗲'};
+ const navIcons={fraquezas:'⚔',captura:'◉',bosses:'♜',catchdex:'◈',movesets:'🗲','stats-teste':'📊'};
  for(const button of document.querySelectorAll('nav.tabs button[data-tab]')){
   const tab=button.dataset.tab;
   const text=navNames[currentLang]?.[tab]||navNames.pt[tab];

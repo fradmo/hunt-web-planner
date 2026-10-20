@@ -1056,7 +1056,7 @@ body .shell main > section.panel.active, body .shell section.panel.active {displ
 #bosses .boss-picker-selects .boss-tier-inside:has(select[hidden]){display:none!important}
 @media(max-width:1000px){#bosses .boss-controls{grid-template-columns:minmax(160px,1fr) minmax(190px,1fr) minmax(150px,.85fr)!important}#bosses .boss-power-inline{grid-column:1/4!important;grid-row:4!important}}
 @media(max-width:620px){#bosses .boss-controls{grid-template-columns:repeat(2,minmax(0,1fr))!important}#bosses .boss-power-inline{grid-column:1/3!important;grid-row:4!important}}
-</style></head>
+</style><meta name="hunt-auto-version" content="b42b0eb9a4148b7e"></head>
 <body><div class="shell"><header class="top"><div class="brand"><img class="hunt-brand-logo" src="assets/hunt-logo.png" alt="Logo Hunt Planner"><div><strong>HUNT<span>Planner</span></strong></div></div><div class="language-picker" aria-label="Language / Idioma"><button type="button" class="lang-btn active" data-lang="pt" title="Português">PT-BR</button><button type="button" class="lang-btn" data-lang="en" title="English">EN-US</button><button type="button" class="lang-btn" data-lang="es" title="Español">ES</button><button type="button" class="lang-btn" data-lang="zh" title="简体中文">中文</button></div><button type="button" id="bgToggle" class="bg-toggle" aria-pressed="false" title="Alternar cenário">🌙 Fundo: OFF</button></header>
 <nav class="tabs" aria-label="Planners"><button class="active" data-tab="fraquezas">⚔ Tasks</button><button data-tab="captura">◉ Captura</button><button data-tab="bosses">♜ Bosses</button><button data-tab="catchdex">◈ Catch Dex</button><button data-tab="movesets">🗲 Movesets</button><button data-tab="stats-teste">📊 Stats</button></nav>
 <main><section id="fraquezas" class="panel active"><div class="heading"><h1>Planejador de Tasks</h1><p>Encontre áreas favoráveis aos tipos escolhidos.</p></div><div class="filters"><label>Fraqueza 1<select id="type1"><option value="Nenhum">Nenhum</option><option value="Normal">Normal</option><option value="Fogo">Fogo</option><option value="Água">Água</option><option value="Elétrico">Elétrico</option><option value="Planta">Planta</option><option value="Gelo">Gelo</option><option value="Lutador">Lutador</option><option value="Veneno">Veneno</option><option value="Terra">Terra</option><option value="Voador">Voador</option><option value="Psíquico">Psíquico</option><option value="Inseto">Inseto</option><option value="Pedra">Pedra</option><option value="Fantasma">Fantasma</option><option value="Dragão">Dragão</option><option value="Sombrio">Sombrio</option><option value="Metal">Metal</option><option value="Fada">Fada</option></select></label><label>Fraqueza 2<select id="type2"><option value="Nenhum">Nenhum</option><option value="Normal">Normal</option><option value="Fogo">Fogo</option><option value="Água">Água</option><option value="Elétrico">Elétrico</option><option value="Planta">Planta</option><option value="Gelo">Gelo</option><option value="Lutador">Lutador</option><option value="Veneno">Veneno</option><option value="Terra">Terra</option><option value="Voador">Voador</option><option value="Psíquico">Psíquico</option><option value="Inseto">Inseto</option><option value="Pedra">Pedra</option><option value="Fantasma">Fantasma</option><option value="Dragão">Dragão</option><option value="Sombrio">Sombrio</option><option value="Metal">Metal</option><option value="Fada">Fada</option></select></label><label>Fraqueza 3<select id="type3"><option value="Nenhum">Nenhum</option><option value="Normal">Normal</option><option value="Fogo">Fogo</option><option value="Água">Água</option><option value="Elétrico">Elétrico</option><option value="Planta">Planta</option><option value="Gelo">Gelo</option><option value="Lutador">Lutador</option><option value="Veneno">Veneno</option><option value="Terra">Terra</option><option value="Voador">Voador</option><option value="Psíquico">Psíquico</option><option value="Inseto">Inseto</option><option value="Pedra">Pedra</option><option value="Fantasma">Fantasma</option><option value="Dragão">Dragão</option><option value="Sombrio">Sombrio</option><option value="Metal">Metal</option><option value="Fada">Fada</option></select></label><label>Fraqueza 4<select id="type4"><option value="Nenhum">Nenhum</option><option value="Normal">Normal</option><option value="Fogo">Fogo</option><option value="Água">Água</option><option value="Elétrico">Elétrico</option><option value="Planta">Planta</option><option value="Gelo">Gelo</option><option value="Lutador">Lutador</option><option value="Veneno">Veneno</option><option value="Terra">Terra</option><option value="Voador">Voador</option><option value="Psíquico">Psíquico</option><option value="Inseto">Inseto</option><option value="Pedra">Pedra</option><option value="Fantasma">Fantasma</option><option value="Dragão">Dragão</option><option value="Sombrio">Sombrio</option><option value="Metal">Metal</option><option value="Fada">Fada</option></select></label><label>Fraqueza 5<select id="type5"><option value="Nenhum">Nenhum</option><option value="Normal">Normal</option><option value="Fogo">Fogo</option><option value="Água">Água</option><option value="Elétrico">Elétrico</option><option value="Planta">Planta</option><option value="Gelo">Gelo</option><option value="Lutador">Lutador</option><option value="Veneno">Veneno</option><option value="Terra">Terra</option><option value="Voador">Voador</option><option value="Psíquico">Psíquico</option><option value="Inseto">Inseto</option><option value="Pedra">Pedra</option><option value="Fantasma">Fantasma</option><option value="Dragão">Dragão</option><option value="Sombrio">Sombrio</option><option value="Metal">Metal</option><option value="Fada">Fada</option></select></label><div class="weakness-level-filter"><div class="weakness-level-header"><label for="minAreaLevel">Faixa de nível da área</label><output id="maxAreaLevelValue">1–120</output></div><div class="dual-range"><input type="range" id="minAreaLevel" min="1" max="120" value="1" step="1" aria-label="Nível mínimo da área"><input type="range" id="maxAreaLevel" min="1" max="120" value="120" step="1" aria-label="Nível máximo da área"></div></div></div><div class="section-heading"><h2>✦ Melhores áreas</h2></div><details id="quest-calcs" class="quest-calcs"><summary><span>🧮 Quest Calcs</span><span class="qc-summary-note">Calcular kills e tempo estimado</span></summary><div class="qc-content"><div class="qc-fields"><label class="qc-rate-label">Kills por hora<input id="qc-rate" type="number" min="1" step="1" value="4500" inputmode="numeric"></label><div id="qc-type-fields" class="qc-type-fields"></div></div><div id="qc-result" class="qc-result" aria-live="polite"></div><small>Estimativas baseadas na proporção de Pokémon elegíveis da área. Quests avançam simultaneamente; não inclui deslocamento, respawn ou bônus.</small></div></details><div id="topCards" class="cards"></div><div class="section-heading second"><h2>Outras áreas</h2></div><div id="otherCards" class="compact-list"></div></section>
@@ -1884,44 +1884,35 @@ root.querySelectorAll('select[id^="type"]').forEach(s=>s.addEventListener('chang
 const oldRender=typeof render==='function'?render:null;
 if(oldRender){/* original render remains untouched; selections are synchronized through change events */}
 calculate();
-})();</script><script id="hunt-auto-update">
+})();</script>
+<script id="hunt-auto-update">
 (()=>{
   if(!('serviceWorker' in navigator)||location.protocol==='file:')return;
-  const ownHash='09446b5dbb31cb6828d45b5f7352cd03bac661664d6c7f2b685182399a21f8a2';
-  const i18nHash='1cdd5d726bf357a5fb69d0f0ad0552492996bcb6f6f3f86a9f8f045e8b09b77c';
-  const norm=s=>s.replace(/<meta name="hunt-auto-build" content="[^"]*">/,'').replace(/const ownHash='[0-9a-f]{64}';/,"const ownHash='0000000000000000000000000000000000000000000000000000000000000000';");
-  const digest=async s=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)))).map(x=>x.toString(16).padStart(2,'0')).join('');
-  let checking=false,reloading=false;
+  const current='b42b0eb9a4148b7e';
+  const marker='hunt-auto-version';
+  let busy=false;
   async function check(){
-    if(checking||reloading||document.visibilityState==='hidden'||!navigator.onLine)return;
-    checking=true;
+    if(busy||document.visibilityState==='hidden'||!navigator.onLine)return;
+    busy=true;
     try{
-      const sw=await navigator.serviceWorker.getRegistration();
-      if(sw)await sw.update();
-      const base=location.href.split('#')[0].split('?')[0];
-      const url=base.endsWith('/')?new URL('index.html',base):new URL('index.html',base);
-      const response=await fetch(url,{cache:'no-store',headers:{'Cache-Control':'no-cache'}});
-      if(!response.ok)return;
-      const live=await response.text();
-      const newHash=await digest(norm(live));
-      let changed=newHash!==ownHash;
-      if(!changed){
-        const r=await fetch(new URL('./i18n.js',url),{cache:'no-store',headers:{'Cache-Control':'no-cache'}});
-        if(r.ok)changed=(await digest(await r.text()))!==i18nHash;
-      }
-      if(changed){reloading=true;location.reload();}
-    }catch(e){console.debug('Hunt update check:',e)}finally{checking=false;}
+      const reg=await navigator.serviceWorker.getRegistration();
+      if(reg)reg.update().catch(()=>{});
+      const url=new URL('./index.html',location.href);
+      url.searchParams.set('_hunt_check',Date.now().toString());
+      const res=await fetch(url,{cache:'no-store'});
+      if(!res.ok)return;
+      const html=await res.text();
+      const found=html.match(/<meta\s+name="hunt-auto-version"\s+content="([a-f0-9]+)"/i);
+      if(!found||found[1]===current)return;
+      const key='hunt-last-reload-version';
+      if(sessionStorage.getItem(key)===found[1])return;
+      sessionStorage.setItem(key,found[1]);
+      location.reload();
+    }catch(err){console.debug('Update check:',err)}finally{busy=false}
   }
-  let hadController=!!navigator.serviceWorker.controller;
-  navigator.serviceWorker.addEventListener('controllerchange',()=>{
-    if(hadController&&!reloading){reloading=true;location.reload()}
-    hadController=true;
-  });
   window.addEventListener('focus',check);
-  window.addEventListener('pageshow',e=>{if(e.persisted)check()});
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')check()});
   setInterval(check,60000);
-  window.addEventListener('load',()=>setTimeout(check,3000),{once:true});
+  window.addEventListener('load',()=>setTimeout(check,4000),{once:true});
 })();
-</script>
-</body></html>
+</script></body></html>

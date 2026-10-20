@@ -979,7 +979,84 @@ body .shell main > section.panel.active, body .shell section.panel.active {displ
 <style id="stats-extra-details-style">#stats-teste .stats-row-extended{grid-template-columns:35px minmax(0,1fr) 65px}#stats-teste .stats-pokemon-info{min-width:0}#stats-teste .stats-pokemon-heading{display:flex;align-items:center;gap:9px;flex-wrap:wrap}#stats-teste .stats-types{display:inline-flex;gap:4px;align-items:center}#stats-teste .stats-types img{width:19px;height:19px;object-fit:contain}#stats-teste .stats-detail{display:flex;flex-wrap:wrap;gap:5px 16px;margin-top:5px;color:#a9bdd4;font-size:11px}#stats-teste .stats-stronger{color:#9ddcb9;font-weight:750}#stats-teste .stats-results{max-width:900px}@media(max-width:520px){#stats-teste .stats-row-extended{gap:8px;padding:10px}#stats-teste .stats-detail{gap:4px 10px}}</style>
 <style id="stats-exclusion-style">#stats-teste .stats-exclusions{display:flex;flex-wrap:wrap;gap:10px 20px;margin:17px 0 4px}#stats-teste .stats-exclusions label{display:inline-flex;align-items:center;gap:8px;color:#e4ecf7;font-size:13px;font-weight:650;cursor:pointer}#stats-teste .stats-exclusions input{width:17px;height:17px;accent-color:#6aaeff;cursor:pointer}</style>
 <meta name="hunt-auto-build" content="AUTO_BUILD_MARKER">
-</head>
+<style id="hunt-boss-picker-visibility-fix">
+/* Keep the boss selector in front of the artwork and outside any clipping layer. */
+#bosses .boss-controls,
+#bosses .boss-picker,
+#bosses .boss-sprite-frame,
+#bosses .boss-picker-selects {overflow:visible!important}
+#bosses .boss-picker {position:relative!important;z-index:35!important}
+#bosses .boss-sprite-frame {position:relative!important;isolation:auto!important}
+#bosses .boss-sprite-frame::before {pointer-events:none!important;z-index:0!important}
+#bosses .boss-sprite-frame > img,
+#bosses .boss-sprite-frame > #bossSpriteFallback,
+#bosses .boss-sprite-frame > #bossTypeBadges {position:relative!important;z-index:1!important;pointer-events:none}
+#bosses .boss-picker-selects {position:relative!important;z-index:50!important;width:100%!important;flex-shrink:0!important;min-width:0!important}
+#bosses .boss-picker-selects label {position:relative!important;z-index:51!important;min-width:0!important}
+#bosses .boss-picker-selects .hunt-search-picker {position:relative!important;z-index:52!important;isolation:auto!important;min-width:0!important}
+#bosses .boss-picker-selects .hunt-search-picker.open {z-index:99999!important}
+#bosses .boss-picker-selects .hunt-search-input {display:block!important;visibility:visible!important;opacity:1!important;width:100%!important;min-width:0!important;background:#394657!important;color:#fff!important;border:1px solid #7187a1!important}
+#bosses .boss-picker-selects .hunt-search-list {position:absolute!important;top:100%!important;left:0!important;right:0!important;z-index:100000!important;max-height:250px!important;overflow-y:auto!important;background:#1c2a3c!important;box-shadow:0 10px 26px #000c!important}
+#bosses .boss-picker-selects .hunt-search-picker.open .hunt-search-list {display:block!important;visibility:visible!important}
+#bosses .boss-picker-selects select:not(.hunt-hidden-select) {visibility:visible!important;opacity:1!important;color:#fff!important;background:#394657!important}
+</style>
+<style id="hunt-tier-automatico-v1">
+#bosses .hunt-tier-switch{display:flex;align-items:center;flex-wrap:wrap;gap:6px;min-width:0;padding:5px 0}
+#bosses .hunt-tier-switch[hidden]{display:none!important}
+#bosses .hunt-tier-caption{font-size:10px;font-weight:700;color:#8ecbff;text-transform:uppercase;width:100%}
+#bosses .hunt-tier-fixed{color:#ffcf69;font-size:13px}
+#bosses .hunt-tier-button{appearance:none;background:#29394c;color:#d9e9ff;border:1px solid #51647e;border-radius:8px;padding:6px 9px;cursor:pointer;font-weight:700;font-size:12px}
+#bosses .hunt-tier-button.active{background:#1c5068;border-color:#62cbf3;color:#fff;box-shadow:0 0 0 1px #62cbf355}
+</style>
+<style id="hunt-vboss-expanded-layout">
+#bosses .boss-controls{display:grid!important;grid-template-columns:minmax(200px,1fr) minmax(200px,1fr) minmax(150px,.75fr) minmax(280px,1.5fr)!important;grid-template-rows:repeat(3,minmax(68px,auto))!important;gap:10px 15px!important;align-items:stretch!important;width:100%!important;max-width:none!important;min-height:320px!important;padding:16px!important;overflow:visible!important}
+#bosses .boss-picker{grid-column:1!important;grid-row:1/4!important;display:block!important;min-width:0!important}
+#bosses .boss-sprite-frame{width:100%!important;height:100%!important;min-height:280px!important;max-height:none!important;display:flex!important;align-items:center!important;justify-content:center!important;overflow:hidden!important;padding:12px!important;box-sizing:border-box!important;border-radius:14px!important}
+#bosses .boss-sprite-frame>img{display:block!important;width:100%!important;height:auto!important;max-width:215px!important;max-height:240px!important;min-height:0!important;margin:0!important;object-fit:contain!important;flex:none!important}
+#bosses .boss-meta{grid-column:2!important;grid-row:1/4!important;display:flex!important;flex-direction:column!important;gap:15px!important;min-width:0!important;justify-content:center!important;align-self:stretch!important}
+#bosses .boss-picker-selects{position:relative!important;display:flex!important;flex-direction:column!important;width:100%!important;gap:10px!important;z-index:10!important}
+#bosses .boss-picker-selects label{position:relative!important;width:100%!important;display:flex!important;flex-direction:column!important;font-size:12px!important;gap:5px!important;min-width:0!important}
+#bosses .boss-picker-selects select{position:relative!important;width:100%!important;height:39px!important;font-size:13px!important;min-width:0!important;opacity:1!important;visibility:visible!important;pointer-events:auto!important}
+#bosses .hunt-tier-switch{position:relative!important;display:flex!important;flex-wrap:wrap!important;align-items:center!important;gap:7px!important;min-width:0!important;width:100%!important}
+#bosses .hunt-tier-switch[hidden]{display:none!important}
+#bosses .hunt-tier-caption{width:100%!important;font-size:12px!important}
+#bosses .hunt-tier-fixed{display:inline-block!important;padding:8px 11px!important;border-radius:8px!important;background:#263d51!important}
+#bosses .hunt-tier-button{flex:1 1 75px!important;min-width:0!important;border-radius:8px!important;padding:9px 8px!important;border:1px solid #60738b!important;background:#263647!important;color:#b9c9da!important;font-weight:800!important;cursor:pointer!important}
+#bosses .hunt-tier-button.active{background:#245b78!important;color:#fff!important;border-color:#76d6ff!important;box-shadow:inset 0 0 0 1px #76d6ff,0 0 12px #40c4ff44!important}
+#bosses .boss-types-outside{display:flex!important;flex-direction:column!important;gap:6px!important}
+#bosses .boss-meta-label{font-size:12px!important;font-weight:750!important;color:#9ed6ff!important}
+#bosses .boss-type-badges{display:flex!important;justify-content:flex-start!important;align-items:center!important;flex-wrap:wrap!important;gap:6px!important}
+#bosses .boss-type-badge{padding:5px 11px!important;font-size:12px!important}
+#bosses .boss-meta .boss-fixed-type{display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:flex-start!important;position:static!important;gap:4px!important;grid-column:auto!important;grid-row:auto!important}
+#bosses .boss-controls>label:has(#affix1){grid-column:3!important;grid-row:1!important}
+#bosses .boss-controls>label:has(#affix2){grid-column:3!important;grid-row:2!important}
+#bosses .boss-controls>label:has(#affix3){grid-column:3!important;grid-row:3!important}
+#bosses .boss-controls>label:has(#affix1),#bosses .boss-controls>label:has(#affix2),#bosses .boss-controls>label:has(#affix3){display:flex!important;flex-direction:column!important;align-self:center!important;min-width:0!important;position:static!important;width:100%!important;margin:0!important}
+#bosses .boss-controls #affix1,#bosses .boss-controls #affix2,#bosses .boss-controls #affix3{width:100%!important;min-width:0!important}
+#bosses .boss-power-inline{grid-column:4!important;grid-row:1/4!important;position:static!important;align-self:stretch!important;display:flex!important;flex-direction:column!important;justify-content:center!important;min-width:0!important;height:auto!important}
+@media(max-width:1000px){#bosses .boss-controls{grid-template-columns:minmax(160px,1fr) minmax(160px,1fr) minmax(140px,.85fr)!important;grid-template-rows:auto auto auto auto!important}#bosses .boss-picker{grid-column:1!important;grid-row:1/4!important}#bosses .boss-meta{grid-column:2!important;grid-row:1/4!important}#bosses .boss-controls>label:has(#affix1),#bosses .boss-controls>label:has(#affix2),#bosses .boss-controls>label:has(#affix3){grid-column:3!important}#bosses .boss-power-inline{grid-column:1/4!important;grid-row:4!important}}
+@media(max-width:620px){#bosses .boss-controls{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;grid-template-rows:auto!important;gap:12px!important}#bosses .boss-picker{grid-column:1!important;grid-row:1!important}#bosses .boss-meta{grid-column:2!important;grid-row:1!important}#bosses .boss-sprite-frame{min-height:220px!important}#bosses .boss-controls>label:has(#affix1){grid-column:1!important;grid-row:2!important}#bosses .boss-controls>label:has(#affix2){grid-column:2!important;grid-row:2!important}#bosses .boss-controls>label:has(#affix3){grid-column:1/3!important;grid-row:3!important}#bosses .boss-power-inline{grid-column:1/3!important;grid-row:4!important}}
+</style><style id="hunt-boss-compact-approved">
+#bosses .boss-controls{grid-template-columns:minmax(190px,1.05fr) minmax(210px,1.08fr) minmax(170px,.85fr) minmax(300px,1.6fr)!important;grid-template-rows:repeat(3,minmax(55px,auto))!important;min-height:255px!important;gap:8px 14px!important;padding:14px!important}
+#bosses .boss-sprite-frame{min-height:235px!important}
+#bosses .boss-meta{gap:9px!important;justify-content:flex-start!important}
+#bosses .boss-picker-selects{gap:8px!important}
+#bosses .boss-picker-selects label{gap:4px!important}
+#bosses .boss-types-outside{gap:0!important}
+#bosses .boss-meta-label{display:none!important}
+#bosses .boss-fixed-type{display:none!important}
+#bosses .boss-moves-compact{display:flex!important;align-items:baseline!important;gap:7px!important;min-width:0!important;font-size:10px!important;line-height:1.4!important;margin-top:3px!important}
+#bosses .boss-moves-label{color:#80caff!important;font-size:10px!important;font-weight:800!important;flex-shrink:0!important}
+#bosses .boss-moves-compact .boss-move-estimates{font-size:10px!important;line-height:1.4!important;color:#e6edf7!important;overflow-wrap:anywhere!important}
+#bosses .boss-power-inline{justify-content:flex-start!important;align-content:start!important;padding:14px!important}
+#bosses .boss-power-inline>.boss-summary-stat{display:inline-flex!important;vertical-align:top!important;flex-direction:column!important;width:49%!important;box-sizing:border-box!important;margin:0 0 12px!important}
+#bosses .boss-power-inline>.boss-stats-grid{width:100%!important;clear:both!important;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:7px 12px!important;margin-top:6px!important}
+#bosses .boss-power-inline>.boss-move-estimates{display:none!important}
+#bosses .boss-power-inline{display:block!important}
+#bosses .boss-picker-selects .boss-tier-inside:has(select[hidden]){display:none!important}
+@media(max-width:1000px){#bosses .boss-controls{grid-template-columns:minmax(160px,1fr) minmax(190px,1fr) minmax(150px,.85fr)!important}#bosses .boss-power-inline{grid-column:1/4!important;grid-row:4!important}}
+@media(max-width:620px){#bosses .boss-controls{grid-template-columns:repeat(2,minmax(0,1fr))!important}#bosses .boss-power-inline{grid-column:1/3!important;grid-row:4!important}}
+</style></head>
 <body><div class="shell"><header class="top"><div class="brand"><img class="hunt-brand-logo" src="assets/hunt-logo.png" alt="Logo Hunt Planner"><div><strong>HUNT<span>Planner</span></strong></div></div><div class="language-picker" aria-label="Language / Idioma"><button type="button" class="lang-btn active" data-lang="pt" title="Português">PT-BR</button><button type="button" class="lang-btn" data-lang="en" title="English">EN-US</button><button type="button" class="lang-btn" data-lang="es" title="Español">ES</button><button type="button" class="lang-btn" data-lang="zh" title="简体中文">中文</button></div><button type="button" id="bgToggle" class="bg-toggle" aria-pressed="false" title="Alternar cenário">🌙 Fundo: OFF</button></header>
 <nav class="tabs" aria-label="Planners"><button class="active" data-tab="fraquezas">⚔ Tasks</button><button data-tab="captura">◉ Captura</button><button data-tab="bosses">♜ Bosses</button><button data-tab="catchdex">◈ Catch Dex</button><button data-tab="movesets">🗲 Movesets</button><button data-tab="stats-teste">📊 Stats</button></nav>
 <main><section id="fraquezas" class="panel active"><div class="heading"><h1>Planejador de Tasks</h1><p>Encontre áreas favoráveis aos tipos escolhidos.</p></div><div class="filters"><label>Fraqueza 1<select id="type1"><option value="Nenhum">Nenhum</option><option value="Normal">Normal</option><option value="Fogo">Fogo</option><option value="Água">Água</option><option value="Elétrico">Elétrico</option><option value="Planta">Planta</option><option value="Gelo">Gelo</option><option value="Lutador">Lutador</option><option value="Veneno">Veneno</option><option value="Terra">Terra</option><option value="Voador">Voador</option><option value="Psíquico">Psíquico</option><option value="Inseto">Inseto</option><option value="Pedra">Pedra</option><option value="Fantasma">Fantasma</option><option value="Dragão">Dragão</option><option value="Sombrio">Sombrio</option><option value="Metal">Metal</option><option value="Fada">Fada</option></select></label><label>Fraqueza 2<select id="type2"><option value="Nenhum">Nenhum</option><option value="Normal">Normal</option><option value="Fogo">Fogo</option><option value="Água">Água</option><option value="Elétrico">Elétrico</option><option value="Planta">Planta</option><option value="Gelo">Gelo</option><option value="Lutador">Lutador</option><option value="Veneno">Veneno</option><option value="Terra">Terra</option><option value="Voador">Voador</option><option value="Psíquico">Psíquico</option><option value="Inseto">Inseto</option><option value="Pedra">Pedra</option><option value="Fantasma">Fantasma</option><option value="Dragão">Dragão</option><option value="Sombrio">Sombrio</option><option value="Metal">Metal</option><option value="Fada">Fada</option></select></label><label>Fraqueza 3<select id="type3"><option value="Nenhum">Nenhum</option><option value="Normal">Normal</option><option value="Fogo">Fogo</option><option value="Água">Água</option><option value="Elétrico">Elétrico</option><option value="Planta">Planta</option><option value="Gelo">Gelo</option><option value="Lutador">Lutador</option><option value="Veneno">Veneno</option><option value="Terra">Terra</option><option value="Voador">Voador</option><option value="Psíquico">Psíquico</option><option value="Inseto">Inseto</option><option value="Pedra">Pedra</option><option value="Fantasma">Fantasma</option><option value="Dragão">Dragão</option><option value="Sombrio">Sombrio</option><option value="Metal">Metal</option><option value="Fada">Fada</option></select></label><label>Fraqueza 4<select id="type4"><option value="Nenhum">Nenhum</option><option value="Normal">Normal</option><option value="Fogo">Fogo</option><option value="Água">Água</option><option value="Elétrico">Elétrico</option><option value="Planta">Planta</option><option value="Gelo">Gelo</option><option value="Lutador">Lutador</option><option value="Veneno">Veneno</option><option value="Terra">Terra</option><option value="Voador">Voador</option><option value="Psíquico">Psíquico</option><option value="Inseto">Inseto</option><option value="Pedra">Pedra</option><option value="Fantasma">Fantasma</option><option value="Dragão">Dragão</option><option value="Sombrio">Sombrio</option><option value="Metal">Metal</option><option value="Fada">Fada</option></select></label><label>Fraqueza 5<select id="type5"><option value="Nenhum">Nenhum</option><option value="Normal">Normal</option><option value="Fogo">Fogo</option><option value="Água">Água</option><option value="Elétrico">Elétrico</option><option value="Planta">Planta</option><option value="Gelo">Gelo</option><option value="Lutador">Lutador</option><option value="Veneno">Veneno</option><option value="Terra">Terra</option><option value="Voador">Voador</option><option value="Psíquico">Psíquico</option><option value="Inseto">Inseto</option><option value="Pedra">Pedra</option><option value="Fantasma">Fantasma</option><option value="Dragão">Dragão</option><option value="Sombrio">Sombrio</option><option value="Metal">Metal</option><option value="Fada">Fada</option></select></label><div class="weakness-level-filter"><div class="weakness-level-header"><label for="minAreaLevel">Faixa de nível da área</label><output id="maxAreaLevelValue">1–120</output></div><div class="dual-range"><input type="range" id="minAreaLevel" min="1" max="120" value="1" step="1" aria-label="Nível mínimo da área"><input type="range" id="maxAreaLevel" min="1" max="120" value="120" step="1" aria-label="Nível máximo da área"></div></div></div><div class="section-heading"><h2>✦ Melhores áreas</h2></div><details id="quest-calcs" class="quest-calcs"><summary><span>🧮 Quest Calcs</span><span class="qc-summary-note">Calcular kills e tempo estimado</span></summary><div class="qc-content"><div class="qc-fields"><label class="qc-rate-label">Kills por hora<input id="qc-rate" type="number" min="1" step="1" value="4500" inputmode="numeric"></label><div id="qc-type-fields" class="qc-type-fields"></div></div><div id="qc-result" class="qc-result" aria-live="polite"></div><small>Estimativas baseadas na proporção de Pokémon elegíveis da área. Quests avançam simultaneamente; não inclui deslocamento, respawn ou bônus.</small></div></details><div id="topCards" class="cards"></div><div class="section-heading second"><h2>Outras áreas</h2></div><div id="otherCards" class="compact-list"></div></section>
@@ -987,7 +1064,7 @@ body .shell main > section.panel.active, body .shell section.panel.active {displ
 <section id="captura" class="panel"><div class="heading"><h1>Planejador de Captura</h1><p>Encontre áreas com Pokémon dos tipos escolhidos e compare seus valores de captura.</p></div><div class="filters capture-filters"><label>Tipo 1<select id="catchType1"><option value="Nenhum">Nenhum</option><option value="Normal">Normal</option><option value="Fogo">Fogo</option><option value="Água">Água</option><option value="Elétrico">Elétrico</option><option value="Planta">Planta</option><option value="Gelo">Gelo</option><option value="Lutador">Lutador</option><option value="Veneno">Veneno</option><option value="Terra">Terra</option><option value="Voador">Voador</option><option value="Psíquico">Psíquico</option><option value="Inseto">Inseto</option><option value="Pedra">Pedra</option><option value="Fantasma">Fantasma</option><option value="Dragão">Dragão</option><option value="Sombrio">Sombrio</option><option value="Metal">Metal</option><option value="Fada">Fada</option></select></label><label>Tipo 2<select id="catchType2"><option value="Nenhum">Nenhum</option><option value="Normal">Normal</option><option value="Fogo">Fogo</option><option value="Água">Água</option><option value="Elétrico">Elétrico</option><option value="Planta">Planta</option><option value="Gelo">Gelo</option><option value="Lutador">Lutador</option><option value="Veneno">Veneno</option><option value="Terra">Terra</option><option value="Voador">Voador</option><option value="Psíquico">Psíquico</option><option value="Inseto">Inseto</option><option value="Pedra">Pedra</option><option value="Fantasma">Fantasma</option><option value="Dragão">Dragão</option><option value="Sombrio">Sombrio</option><option value="Metal">Metal</option><option value="Fada">Fada</option></select></label></div><div class="section-heading"><h2>🎯 Melhores áreas para captura</h2></div><div id="captureCards" class="cards capture-cards"></div><section class="best-capture" aria-live="polite"><h2>☆ Melhor área de captura por tipo ☆</h2><div id="bestCaptureResult" class="best-capture-result"></div></section></section>
 <section id="bosses" class="panel"><div class="heading"><h1>Planejador de Bosses</h1><p>Configure a Raid, veja recomendações e compare seus Pokémon.</p></div>
 <div class="boss-controls">
-<div class="boss-picker"><div class="boss-sprite-frame"><div id="bossTypeBadges" class="boss-type-badges"></div><img id="bossSprite" alt="Sprite do boss" loading="eager"><span id="bossSpriteFallback" aria-hidden="true">◈</span><div class="boss-picker-selects"><label class="boss-select-inside">Boss<select id="bossName"></select></label><label class="boss-tier-inside">Tier<select id="bossTier"></select></label></div></div></div><div class="boss-fixed-type"><span>Tipo Raid</span><strong id="bossTypeFixed">—</strong></div>
+<div class="boss-picker"><div class="boss-sprite-frame"><img id="bossSprite" alt="Sprite do boss" loading="eager"><span id="bossSpriteFallback" aria-hidden="true">◈</span></div></div><div class="boss-meta"><div class="boss-picker-selects"><label class="boss-select-inside">Boss<select id="bossName"></select></label><label class="boss-tier-inside">Tier<select id="bossTier"></select></label></div><div class="boss-types-outside"><div id="bossTypeBadges" class="boss-type-badges"></div></div><div class="boss-fixed-type" hidden><span>Tipo Raid</span><strong id="bossTypeFixed">—</strong></div><div id="bossMovesCompact" class="boss-moves-compact" aria-label="Moves do Boss"></div></div>
 <label>Afixo 1<select id="affix1"></select></label>
 <label>Afixo 2<select id="affix2"></select></label><label>Afixo 3<select id="affix3"></select></label><div id="bossPowerEstimate" class="boss-power-inline" aria-live="polite"></div></div><div class="affix-descriptions"><span id="affixDesc1"></span><span id="affixDesc2"></span><span id="affixDesc3"></span></div>
 
@@ -1340,7 +1417,39 @@ function strongest(p,level=100,rarity='Common',iv=[15,15,15,15,15,15],ev=[0,0,0,
 }
 function recs(){return BD.pokemon.filter(p=>Array.isArray(p.stats)&&Array.isArray(p.types)).map(p=>({p,moves:strongest(p)})).filter(x=>x.moves.length).map(x=>({...x,score:x.moves.reduce((s,m)=>s+m.score,0)/x.moves.length})).sort((a,b)=>b.score-a.score).slice(0,4)}
 let lastRecs=[];
+// Tiers informados pelo jogador; entradas nao confirmadas conservam seletor anterior.
+const HUNT_FIXED_BOSS_TIERS={
+ 'Mew':['alfa'],'Mega Absol':['alfa'],
+ 'Lugia':['anciao'],'Ho-oh':['anciao'],'Giratina':['anciao'],'Reshiram':['anciao'],'Zekrom':['anciao'],
+ 'Mega Charizard X':['anciao'],'Mega Blaziken':['anciao'],'Mega Swampert':['anciao'],
+ 'Mega Lucario':['anciao','colosso'],'Mega Gyarados':['anciao'],'Mega Scizor':['anciao'],'Mega Aerodactyl':['anciao'],
+ 'Mewtwo':['colosso','tita'],'Rayquaza':['colosso','tita'],
+ 'Dialga':['colosso'],'Palkia':['colosso'],
+ 'Mega Tyranitar':['colosso','tita'],'Mega Metagross':['colosso','tita'],
+ 'Arceus':['tita'],'Mega Steelix':['tita']
+};
+function huntTierForBoss(){
+ const name=byId('bossName')?.value||'';
+ const clean=x=>String(x).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]/g,'');
+ const key=Object.keys(HUNT_FIXED_BOSS_TIERS).find(k=>clean(k)===clean(name));
+ return key?HUNT_FIXED_BOSS_TIERS[key]:null;
+}
+function huntSyncBossTier(reset=false){
+ const select=byId('bossTier');if(!select)return;
+ const label=select.closest('label');if(!label)return;
+ let bar=byId('hunt-tier-switch');
+ if(!bar){bar=document.createElement('div');bar.id='hunt-tier-switch';bar.className='hunt-tier-switch';label.insertAdjacentElement('afterend',bar);}
+ const tiers=huntTierForBoss();
+ if(!tiers){label.style.display='';bar.hidden=true;bar.replaceChildren();return;}
+ label.style.display='none';bar.hidden=false;bar.replaceChildren();
+ const caption=document.createElement('span');caption.className='hunt-tier-caption';caption.textContent='Tier do Boss';bar.append(caption);
+ if(reset||!tiers.includes(select.value))select.value=tiers[0];
+ if(tiers.length===1){const tag=document.createElement('strong');tag.className='hunt-tier-fixed';tag.textContent=tiers[0]==='tita'?'Titã':tiers[0]==='anciao'?'Ancião':tiers[0][0].toUpperCase()+tiers[0].slice(1);bar.append(tag);}
+ else for(const tier of tiers){const button=document.createElement('button');button.type='button';button.className='hunt-tier-button'+(select.value===tier?' active':'');button.textContent=tier==='tita'?'Titã':tier==='anciao'?'Ancião':tier[0].toUpperCase()+tier.slice(1);button.setAttribute('aria-pressed',String(select.value===tier));button.addEventListener('click',()=>{select.value=tier;huntSyncBossTier(false);renderBoss()});bar.append(button);}
+}
+
 function renderBoss(){
+ huntSyncBossTier(false);
  const b=bossChosen();if(!b)return;
  const t=raidType();
  updateBossSprite();
@@ -1382,9 +1491,10 @@ function renderBoss(){
  const statsGrid=node('div','boss-stats-grid');
  b.stats.forEach((base,i)=>{const levelStat=Math.floor((2*Number(base)+15)*avgLevel/100)+(i===0?Math.floor(avgLevel)+10:5);const item=node('div','boss-stat-item');item.append(node('span','',statLabels[i]),node('strong','',String(levelStat)));item.title=`Base ${base} · nível médio ${avgLevel} · IV 15 · EV 0`;statsGrid.append(item)});
  bossInfo.append(statsGrid);
- const detail=node('div','boss-move-estimates');detail.textContent=bossMoveScores.map(x=>`${titleCase(x.move.name)}: ${shownPwr(x.score)}`).join(' · ');
+ const detail=node('div','boss-move-estimates');detail.textContent=bossMoveScores.map(x=>titleCase(x.move.name)).join(' · ')||'—';
+ const movesContainer=byId('bossMovesCompact');if(movesContainer){const caption=node('span','boss-moves-label','MOVES');movesContainer.replaceChildren(caption,detail);}
  detail.title='Quatro golpes diferentes de maior PWR estimado, com potência, recarga, categoria, STAB e efetividade contra Normal. Fúria aplicada quando selecionada. Não considera Frenesi, Ímpeto, nem o tipo defensivo do seu Pokémon.';
- bossInfo.append(detail);
+
  }bossInfo.title='Média ofensiva de até quatro golpes distintos contra alvo Normal de DEF/DEF ESP 100. Não diretamente comparável ao PWR contra o boss.';
  for(let n=1;n<=3;n++){const el=byId('affixDesc'+n);if(el){const val=byId('affix'+n).value;el.textContent=val==='Nenhum'?'':(BD.affixDescriptions[val]||'');}}
  
@@ -1506,7 +1616,7 @@ function initBoss(){
  fillSelect(byId('bossTier'),[...BD.tiers].sort((a,b)=>(BD.tierLevels[a]?.[0]??Infinity)-(BD.tierLevels[b]?.[0]??Infinity)),'errante');
  for(let i=1;i<=3;i++){fillSelect(byId('affix'+i),['Nenhum',...BD.affixes],'Nenhum');[...byId('affix'+i).options].forEach(o=>o.textContent=titleCase(o.value));}
  [...byId('bossTier').options].forEach(o=>{const r=BD.tierLevels[o.value];o.textContent=titleCase(o.value)+(r?' · Nv. '+r[0]+'–'+r[1]:'');});
- byId('bossName').addEventListener('change',renderBoss);
+ byId('bossName').addEventListener('change',()=>{huntSyncBossTier(true);renderBoss()});
  for(const id of ['bossTier','affix1','affix2','affix3'])byId(id).addEventListener('change',renderBoss);
  for(let i=0;i<2;i++){byId('customBoss').append(buildCustom(i));populateMoves(i)}
  renderBoss();

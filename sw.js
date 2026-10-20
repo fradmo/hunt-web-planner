@@ -1,4 +1,4 @@
-const CACHE='hunt-planner-network-v2';
+const CACHE='hunt-planner-network-v3';
 const OFFLINE=['./index.html','./i18n.js','./manifest.webmanifest'];
 self.addEventListener('install',event=>event.waitUntil((async()=>{
   const c=await caches.open(CACHE);

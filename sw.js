@@ -1,5 +1,26 @@
-const CACHE='hunt-planner-v1_5_35';
-const FILES=['./','./index.html','./i18n.js','./favicon.png','./manifest.webmanifest','./assets/pokemon-dex.json'];
-self.addEventListener('install',event=>{event.waitUntil((async()=>{const cache=await caches.open(CACHE);for(let i=0;i<FILES.length;i+=30){await cache.addAll(FILES.slice(i,i+30));}await self.skipWaiting();})());});
-self.addEventListener('activate',event=>{event.waitUntil((async()=>{const keys=await caches.keys();await Promise.all(keys.filter(k=>k.startsWith('hunt-planner-')&&k!==CACHE).map(k=>caches.delete(k)));await self.clients.claim();})());});
-self.addEventListener('fetch',event=>{const req=event.request;if(req.method!=='GET'||new URL(req.url).origin!==self.location.origin)return;event.respondWith((async()=>{const cached=await caches.match(req);if(cached)return cached;try{const response=await fetch(req);if(response.ok){const cache=await caches.open(CACHE);await cache.put(req,response.clone());}return response;}catch(e){return (req.mode==='navigate'?await caches.match('./index.html'):undefined)||Response.error();}})());});
+const CACHE='hunt-planner-network-v2';
+const OFFLINE=['./index.html','./i18n.js','./manifest.webmanifest'];
+self.addEventListener('install',event=>event.waitUntil((async()=>{
+  const c=await caches.open(CACHE);
+  await Promise.all(OFFLINE.map(async path=>{try{const r=await fetch(path,{cache:'reload'});if(r.ok)await c.put(path,r)}catch(e){}}));
+  await self.skipWaiting();
+})()));
+self.addEventListener('activate',event=>event.waitUntil((async()=>{
+  const keys=await caches.keys();
+  await Promise.all(keys.filter(k=>k.startsWith('hunt-planner-')&&k!==CACHE).map(k=>caches.delete(k)));
+  await self.clients.claim();
+})()));
+self.addEventListener('fetch',event=>{
+  const req=event.request;
+  if(req.method!=='GET'||new URL(req.url).origin!==self.location.origin)return;
+  event.respondWith((async()=>{
+    const c=await caches.open(CACHE);
+    try{
+      const r=await fetch(req,{cache:'no-store'});
+      if(r.ok)await c.put(req,r.clone());
+      return r;
+    }catch(e){
+      return (await c.match(req))||(req.mode==='navigate'?await c.match('./index.html'):undefined)||Response.error();
+    }
+  })());
+});

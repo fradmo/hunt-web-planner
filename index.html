@@ -1162,6 +1162,27 @@ body .shell main > section.panel.active, body .shell section.panel.active {displ
 #bosses #bossPowerEstimate .boss-stat-item{text-align:center!important;align-items:center!important}
 #bosses #bossPowerEstimate .boss-stat-item strong{font-size:18px!important}
 }
+</style><style id="hunt-boss-background-single-layer-v6">
+/* Background aplicado UMA unica vez, no proprio card; nenhum pseudo-elemento duplica a paisagem. */
+#bosses .boss-sprite-frame.hunt-scene-isolated {
+  position:relative!important;
+  isolation:isolate!important;
+  overflow:hidden!important;
+  padding:0!important;
+  background-image:linear-gradient(180deg,rgba(9,15,26,.07),rgba(9,15,26,.38)),var(--hunt-scene-url)!important;
+  background-position:center center!important;
+  background-size:cover!important;
+  background-repeat:no-repeat!important;
+  background-origin:padding-box!important;
+  background-clip:padding-box!important;
+}
+#bosses .boss-sprite-frame.hunt-scene-isolated::before,
+#bosses .boss-sprite-frame.hunt-scene-isolated::after {
+  content:none!important;
+  display:none!important;
+  background-image:none!important;
+}
+#bosses .boss-sprite-frame.hunt-scene-isolated > *{position:relative!important;z-index:1!important}
 </style></head>
 <body><div class="shell"><header class="top"><div class="brand"><img class="hunt-brand-logo" src="assets/hunt-logo.png" alt="Logo Hunt Planner"><div><strong>HUNT<span>Planner</span></strong></div></div><div class="language-picker" aria-label="Language / Idioma"><button type="button" class="lang-btn active" data-lang="pt" title="Português">PT-BR</button><button type="button" class="lang-btn" data-lang="en" title="English">EN-US</button><button type="button" class="lang-btn" data-lang="es" title="Español">ES</button><button type="button" class="lang-btn" data-lang="zh" title="简体中文">中文</button></div><button type="button" id="bgToggle" class="bg-toggle" aria-pressed="false" title="Alternar cenário">🌙 Fundo: OFF</button></header>
 <nav class="tabs" aria-label="Planners"><button class="active" data-tab="fraquezas">⚔ Tasks</button><button data-tab="captura">◉ Captura</button><button data-tab="bosses">♜ Bosses</button><button data-tab="catchdex">◈ Catch Dex</button><button data-tab="movesets">🗲 Movesets</button><button data-tab="stats-teste">📊 Stats</button></nav>
@@ -1198,7 +1219,7 @@ function applyDualScene(el, types){
  // Uma unica imagem, sem camadas antigas que possam aparecer nas bordas.
  el.style.setProperty('--hunt-scene-url',`url("${filename}")`);
  el.classList.add('hunt-scene-isolated');
- el.style.setProperty('background-image','none','important');
+ el.style.removeProperty('background-image');
  el.style.setProperty('background-color','#152334','important');
 }
 
